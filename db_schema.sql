@@ -19,6 +19,19 @@ CREATE TABLE IF NOT EXISTS email_accounts (
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
+CREATE TABLE IF NOT EXISTS articles (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id  INT, --the user that the email account belongs to
+    name TEXT,
+    content TEXT,
+    created_at DATE DEFAULT CURRENT_TIMESTAMP,
+    last_modified DATE DEFAULT CURRENT_TIMESTAMP,
+    published_at DATE,
+    number_of_reads INT DEFAULT 0,
+    number_of_likes INT DEFAULT 0,
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
 -- Insert default data (if necessary here)
 
 -- Set up three users
@@ -30,6 +43,11 @@ INSERT INTO users ('user_name', 'blog_title') VALUES ('Harry Hilbert', 'The Life
 INSERT INTO email_accounts ('email_address', 'user_id') VALUES ('simon@gmail.com', 1); 
 INSERT INTO email_accounts ('email_address', 'user_id') VALUES ('simon@hotmail.com', 1); 
 INSERT INTO email_accounts ('email_address', 'user_id') VALUES ('dianne@yahoo.co.uk', 2); 
+
+-- Insert articles
+INSERT INTO articles ('user_id', 'name', 'content', 'published_at') VALUES (1, 'my first article', 'Lorem Ipsum', CURRENT_TIMESTAMP); 
+INSERT INTO articles ('user_id', 'name') VALUES (1, 'the effect of cows'); 
+INSERT INTO articles ('user_id', 'name', 'content') VALUES (2, 'what you should know about me', 'Lorem Ipsum'); 
 
 COMMIT;
 

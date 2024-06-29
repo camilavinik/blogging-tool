@@ -1,27 +1,47 @@
 const express = require('express');
 const router = express.Router();
+const util = require('util');
+
+// Promisify the db.all method
+const dbAll = util.promisify(global.db.all).bind(global.db);
+
+// Promisify the db.get method
+const dbGet = util.promisify(global.db.get).bind(global.db);
 
 /**
  * @desc //TODO WRITE
  */
-router.get('/:id', (req, res, next) => {
-  // Define the query
-  const query = `SELECT * FROM users WHERE user_id=${req.params.id}`;
+router.get('/:id', async (req, res, next) => {
+  let variables = {};
 
-  // Execute the query and render the page with the results
-  global.db.all(query, function (err, rows) {
-    if (err) {
-      next(err); //send the error on to the error handler
-    } else {
-      const author = rows[0];
-      res.render('author/home.ejs', {
-        authorName: author.user_name,
-        blogTitle: author.blog_title
-          ? author.blogTitle
-          : `The blog of ${author.user_name}`,
-      });
+  try {
+    // Define the query to users table
+    const userQuery = `SELECT user_name, blog_title FROM users WHERE user_id=${req.params.id}`;
+    // Execute the query
+    const author = await dbGet(userQuery);
+
+    if (!author) {
+      return res.status(404).send('User not found');
     }
-  });
+
+    variables = {
+      authorName: author.user_name,
+      blogTitle: author.blog_title
+        ? author.blogTitle
+        : `The blog of ${author.user_name}`,
+    };
+
+    // Define the query to articles table
+    const articlesQuery = `SELECT name, content, created_at, published_at, last_modified, number_of_reads, number_of_likes FROM articles WHERE user_id=${req.params.id}`;
+    // Execute the query
+    const articles = await dbAll(articlesQuery);
+    variables = { ...variables, articles };
+
+    // Render the page with the results
+    res.render('author/home.ejs', variables);
+  } catch (err) {
+    next(err); //send the error on to the error handler
+  }
 });
 
 module.exports = router;

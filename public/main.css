@@ -5,13 +5,17 @@
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
+ul {
+    list-style-type: none
+}
+
 .title {
     margin: 0;
 }
 
 .body {
     min-height: 100vh;
-    background-color: #EEF0E5;
+    background-color: #B6C4B6;
 }
 
 .header {
@@ -30,6 +34,9 @@
     background-color: white;
     border-radius: 8px;
     color: #163020;
+    display: flex;
+    flex-direction: column;
+    gap: 24px
 }
 
 .navigation-container {
@@ -37,7 +44,6 @@
     gap: 24px;
     font-size: 12px;
     font-weight: 600;
-    list-style-type: none
 }
 
 .navigation-container > li {

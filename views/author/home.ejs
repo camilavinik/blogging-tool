@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/2d9060194c.js" crossorigin="anonymous"></script>
     <link rel="stylesheet"  type="text/css" href="/main.css" />
+    <link rel="stylesheet"  type="text/css" href="/author.css" />
     <title>Author Home Page</title>
 </head>
 <body class="body">
@@ -21,6 +23,34 @@
     </header>
     <div class="main-container">
         <h2><%= blogTitle %></h2>
+        <ul class="articles-list">
+            <% articles.forEach(function(article) { %>
+                <li class="article-container">
+                    <div class="article-header">
+                        <div class="article-header">
+                            <h3><%= article.name %></h3>
+                            <div class="badge <%= article.published_at ? '' : 'red' %>">
+                                <%= article.published_at ? `PUBLISHED: ${article.published_at}` : "NOT PUBLISHED" %>
+                            </div>
+                            </div>
+                        <div class="icons-container">
+                            <div class="icon-container">
+                                <i class="fa-regular fa-eye"></i>
+                                <%= article.number_of_reads %>
+                            </div>
+                            <div class="icon-container">
+                                <i class="fa-regular fa-thumbs-up"></i>
+                                <%= article.number_of_likes %>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="information">CREATED: <%= article.created_at %></p>
+                        <p class="information">MODIFIED: <%= article.last_modified %></p>
+                    </div>
+                </li>
+            <% }) %>
+        </ul>
     </div>
 </body>
 </html>
