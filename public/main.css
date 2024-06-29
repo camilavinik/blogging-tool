@@ -1,1 +1,45 @@
-/* Define styles */
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.title {
+    margin: 0;
+}
+
+.body {
+    min-height: 100vh;
+    background-color: #EEF0E5;
+}
+
+.header {
+    width: 100%;
+    padding: 24px;
+    background-color: #163020 ;
+    color: #EEF0E5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.main-container {
+    margin: 24px;
+    padding: 24px;
+    background-color: white;
+    border-radius: 8px;
+    color: #163020;
+}
+
+.navigation-container {
+    display: flex;
+    gap: 24px;
+    font-size: 12px;
+    font-weight: 600;
+    list-style-type: none
+}
+
+.navigation-container > li {
+    cursor: pointer;
+}

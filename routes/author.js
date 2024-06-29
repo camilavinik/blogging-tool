@@ -6,7 +6,7 @@ const router = express.Router();
  */
 router.get('/:id', (req, res, next) => {
   // Define the query
-  query = `SELECT * FROM users WHERE user_id=${req.params.id}`;
+  const query = `SELECT * FROM users WHERE user_id=${req.params.id}`;
 
   // Execute the query and render the page with the results
   global.db.all(query, function (err, rows) {
@@ -14,7 +14,12 @@ router.get('/:id', (req, res, next) => {
       next(err); //send the error on to the error handler
     } else {
       const author = rows[0];
-      res.render('author/home.ejs', { authorName: author.user_name });
+      res.render('author/home.ejs', {
+        authorName: author.user_name,
+        blogTitle: author.blog_title
+          ? author.blogTitle
+          : `The blog of ${author.user_name}`,
+      });
     }
   });
 });

@@ -8,7 +8,8 @@ BEGIN TRANSACTION;
 
 CREATE TABLE IF NOT EXISTS users (
     user_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_name TEXT NOT NULL
+    user_name TEXT NOT NULL,
+    blog_title TEXT
 );
 
 CREATE TABLE IF NOT EXISTS email_accounts (
@@ -22,8 +23,8 @@ CREATE TABLE IF NOT EXISTS email_accounts (
 
 -- Set up three users
 INSERT INTO users ('user_name') VALUES ('Simon Star');
-INSERT INTO users ('user_name') VALUES ('Dianne Dean');
-INSERT INTO users ('user_name') VALUES ('Harry Hilbert');
+INSERT INTO users ('user_name', 'blog_title') VALUES ('Dianne Dean', 'Hello world');
+INSERT INTO users ('user_name', 'blog_title') VALUES ('Harry Hilbert', 'The Life of Harry');
 
 -- Give Simon two email addresses and Diane one, but Harry has none
 INSERT INTO email_accounts ('email_address', 'user_id') VALUES ('simon@gmail.com', 1); 

@@ -6,7 +6,21 @@
     <link rel="stylesheet"  type="text/css" href="/main.css" />
     <title>Author Home Page</title>
 </head>
-<body>
-    <h1>Author <%= authorName %> Home Page</h1>
+<body class="body">
+    <header class="header">
+        <div>
+            <h1 class="title"><%= authorName %></h1>
+            <h6 class="title">HOME PAGE</h1>
+        </div>
+        <nav>
+            <ul class="navigation-container">
+                <li>CREATE NEW DRAFT</li>
+                <li>SETTINGS</li>
+            </ul>
+        </nav>
+    </header>
+    <div class="main-container">
+        <h2><%= blogTitle %></h2>
+    </div>
 </body>
 </html>
