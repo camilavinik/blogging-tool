@@ -2,10 +2,9 @@ const express = require('express');
 const router = express.Router();
 const util = require('util');
 
-// Promisify the db.all method
+// Promisify the db methods
+const dbRun = util.promisify(global.db.run).bind(global.db);
 const dbAll = util.promisify(global.db.all).bind(global.db);
-
-// Promisify the db.get method
 const dbGet = util.promisify(global.db.get).bind(global.db);
 
 /**
@@ -32,8 +31,8 @@ router.get('/:id', async (req, res, next) => {
     };
 
     // Define the query to articles table
-    const publishedArticlesQuery = `SELECT name, content, created_at, published_at, last_modified, number_of_reads, number_of_likes FROM articles WHERE user_id=${req.params.id} AND published_at NOT NULL`;
-    const draftArticlesQuery = `SELECT name, content, created_at, published_at, last_modified, number_of_reads, number_of_likes FROM articles WHERE user_id=${req.params.id} AND published_at IS NULL`;
+    const publishedArticlesQuery = `SELECT id, name, content, created_at, published_at, last_modified, number_of_reads, number_of_likes FROM articles WHERE user_id=${req.params.id} AND published_at NOT NULL`;
+    const draftArticlesQuery = `SELECT id, name, content, created_at, published_at, last_modified, number_of_reads, number_of_likes FROM articles WHERE user_id=${req.params.id} AND published_at IS NULL`;
     // Execute the query
     const [publishedArticles, draftArticles] = await Promise.all([
       dbAll(publishedArticlesQuery),
@@ -44,6 +43,40 @@ router.get('/:id', async (req, res, next) => {
 
     // Render the page with the results
     res.render('author/home.ejs', variables);
+  } catch (err) {
+    next(err); //send the error on to the error handler
+  }
+});
+
+/**
+ * @desc //TODO WRITE
+ */
+router.post('/delete', async (req, res) => {
+  try {
+    // Define the query to delete the article
+    const deleteQuery = `DELETE FROM articles WHERE id=${req.body.id}`;
+    // Execute the query
+    await dbRun(deleteQuery);
+
+    // Redirect to the page we were at
+    res.redirect('back');
+  } catch (err) {
+    next(err); //send the error on to the error handler
+  }
+});
+
+/**
+ * @desc //TODO WRITE
+ */
+router.post('/publish', async (req, res) => {
+  try {
+    // Define the query to publish the article
+    const publishQuery = `UPDATE articles SET published_at=CURRENT_TIMESTAMP WHERE id=${req.body.id}`;
+    // Execute the query
+    await dbRun(publishQuery);
+
+    // Redirect to the page we were at
+    res.redirect('back');
   } catch (err) {
     next(err); //send the error on to the error handler
   }

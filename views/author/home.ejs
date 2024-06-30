@@ -40,7 +40,10 @@
                             </div>
                         </div>
                         <div class="actions-container">
-                            <button class="button">DELETE</button>
+                            <form action="/author/delete" method="post">
+                                <input type="hidden" name="id" value="<%= article.id %>"> <!-- ID of the article -->
+                                <button class="button red" type="submit">DELETE</button>
+                            </form>
                         </div>
                     </div>
                     <div>
@@ -58,8 +61,14 @@
                     <div class="space-between">
                         <h3><%= article.name %></h3>
                         <div class="actions-container">
-                            <button class="button">PUBLISH</button>
-                            <button class="button">DELETE</button>
+                            <form action="/author/publish" method="post">
+                                <input type="hidden" name="id" value="<%= article.id %>"> <!-- ID of the article -->
+                                <button class="button" type="submit">PUBLISH</button>
+                            </form>
+                            <form action="/author/delete" method="post">
+                                <input type="hidden" name="id" value="<%= article.id %>"> <!-- ID of the article -->
+                                <button class="button red" type="submit">DELETE</button>
+                            </form>
                         </div>
                     </div>
                     <div>
