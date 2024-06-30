@@ -10,18 +10,30 @@ ul {
 }
 
 .button {
-    border: none;
+    border: 2px solid #163020;
     border-radius: 4px;
     cursor: pointer;
-    background-color: #163020;
-    color: white;
+    background-color: transparent;
+    color: #163020;
     font-size: 12px;
     font-weight: 600;
-    padding: 4px 6px;
+    padding: 2px 4px;
+    transition: 0.2s;
+}
+
+.button:hover {
+    background-color: #163020;
+    color: white;
 }
 
 .button.red {
+    border-color: #FF4545;
+    color: #FF4545;
+}
+
+.button.red:hover {
     background-color: #FF4545;
+    color: white;
 }
 
 .space-between {
