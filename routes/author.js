@@ -32,10 +32,15 @@ router.get('/:id', async (req, res, next) => {
     };
 
     // Define the query to articles table
-    const articlesQuery = `SELECT name, content, created_at, published_at, last_modified, number_of_reads, number_of_likes FROM articles WHERE user_id=${req.params.id}`;
+    const publishedArticlesQuery = `SELECT name, content, created_at, published_at, last_modified, number_of_reads, number_of_likes FROM articles WHERE user_id=${req.params.id} AND published_at NOT NULL`;
+    const draftArticlesQuery = `SELECT name, content, created_at, published_at, last_modified, number_of_reads, number_of_likes FROM articles WHERE user_id=${req.params.id} AND published_at IS NULL`;
     // Execute the query
-    const articles = await dbAll(articlesQuery);
-    variables = { ...variables, articles };
+    const [publishedArticles, draftArticles] = await Promise.all([
+      dbAll(publishedArticlesQuery),
+      dbAll(draftArticlesQuery),
+    ]);
+
+    variables = { ...variables, publishedArticles, draftArticles };
 
     // Render the page with the results
     res.render('author/home.ejs', variables);

@@ -5,28 +5,17 @@
 }
 
 .article-container {
+    position: relative;
     padding: 12px;
     background-color: #EEF0E5;
     border-radius: 8px;
     color: #163020;
-    cursor: pointer;
-    transition: 0.25s;
 }
 
 .article-header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-}
-
-.icons-container {
-    display: flex;
-    gap: 24px;
-}
-
-.article-container:hover {
-    background-color: #163020;
-    color: #EEF0E5;
+    gap: 12px
 }
 
 .information {
@@ -34,16 +23,5 @@
     font-weight: 600;
 }
 
-.badge {
-    font-size: 8px;
-    font-weight: 600;
-    margin-left: 6px;
-    background-color: #457AFF;
-    color: #EEF0E5;
-    padding: 4px 8px;
-    border-radius: 16px;
-}
-
-.badge.red {
-    background-color: #FF4545;
+.actions-container {
 }
