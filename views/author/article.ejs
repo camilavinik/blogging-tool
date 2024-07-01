@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/2d9060194c.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet"  type="text/css" href="/main.css" />
+    <link rel="stylesheet"  type="text/css" href="/author.css" />
+    <title>Edit <%= name %></title>
+</head>
+<body class="body">
+    <header class="header">
+        <div>
+            <h1 class="title"><%= authorName %></h1>
+            <h6 class="title">EDIT ARTICLE</h1>
+        </div>
+        <nav>
+            <ul class="navigation-container">
+                <li><a href="/author/<%= authorId %>">AUTHOR HOME</a></li>
+                <li>CREATE NEW DRAFT</li>
+                <li>SETTINGS</li>
+            </ul>
+        </nav>
+    </header>
+    <form action="/author/edit" method="post" class="main-container">
+        <input type="hidden" name="id" value="<%= id %>" /> <!-- ID of the article -->
+        <button class="button submit-changes" type="submit">SUBMIT CHANGES</button>
+        <label class="information">TITLE</label>
+        <input type="text" name="name" value="<%= name %>" />
+        <label class="information">CONTENT</label>
+        <textarea type="text" name="content" name="lname"><%= content %></textarea>
+    </form>
+</body>
+</html>

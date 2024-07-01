@@ -5,8 +5,26 @@
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
+#my-app-container {
+    display: none;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
 ul {
     list-style-type: none
+}
+
+textarea, input {
+    padding: 12px;
+}
+
+textarea {
+    resize: none;
+    height: 100%;
 }
 
 .button {
@@ -47,6 +65,8 @@ ul {
 }
 
 .body {
+    display: grid;
+    grid-template-rows: 98px auto;
     min-height: 100vh;
     background-color: #B6C4B6;
 }

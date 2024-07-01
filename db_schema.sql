@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS email_accounts (
 
 CREATE TABLE IF NOT EXISTS articles (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id  INT, --the user that the email account belongs to
+    user_id  INT NOT NULL, --the user that the article belongs to
     name TEXT,
     content TEXT,
     created_at DATE DEFAULT CURRENT_TIMESTAMP,
