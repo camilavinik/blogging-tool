@@ -27,6 +27,11 @@ textarea {
     height: 100%;
 }
 
+.buttons-container {
+    display: flex;
+    justify-content: space-between;
+}
+
 .button {
     border: 2px solid #163020;
     border-radius: 4px;

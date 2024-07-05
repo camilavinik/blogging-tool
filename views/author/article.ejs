@@ -24,7 +24,10 @@
     </header>
     <form action="/author/edit" method="post" class="main-container">
         <input type="hidden" name="id" value="<%= id %>" /> <!-- ID of the article -->
-        <button class="button submit-changes" type="submit">SUBMIT CHANGES</button>
+        <div class="buttons-container">
+            <a href="/author/<%= authorId %>"><button type="button" class="button">BACK</button></a>
+            <button class="button" type="submit">SUBMIT CHANGES</button>
+        </div>
         <label class="information">TITLE</label>
         <input type="text" name="name" value="<%= name %>" />
         <label class="information">CONTENT</label>
