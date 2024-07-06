@@ -21,10 +21,16 @@
             </ul>
         </nav>
     </header>
-    <div class="main-container">
+    <form action="" method="post" class="main-container">
+        <input type="hidden" name="id" value="<%= authorId %>" /> <!-- ID of the author -->
         <div class="buttons-container">
             <a href="/author/<%= authorId %>"><button type="button" class="button">BACK</button></a>
+            <button class="button" type="submit">SUBMIT CHANGES</button>
         </div>
-    </div>
+        <label class="information">AUTHOR NAME</label>
+        <input type="text" name="authorName" value="<%= authorName %>" />
+        <label class="information">BLOG TITLE</label>
+        <input type="text" name="blogTitle" value="<%= blogTitle %>" />
+    </form>
 </body>
 </html>
