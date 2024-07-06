@@ -45,7 +45,8 @@ INSERT INTO email_accounts ('email_address', 'user_id') VALUES ('simon@hotmail.c
 INSERT INTO email_accounts ('email_address', 'user_id') VALUES ('dianne@yahoo.co.uk', 2); 
 
 -- Insert articles
-INSERT INTO articles ('user_id', 'name', 'content', 'published_at') VALUES (1, 'my first article', 'Lorem Ipsum', CURRENT_TIMESTAMP); 
+INSERT INTO articles ('user_id', 'name', 'content', 'published_at') VALUES (1, 'my first article', 'Lorem Ipsum', CURRENT_TIMESTAMP);
+INSERT INTO articles ('user_id', 'name', 'content', 'published_at') VALUES (1, 'my second article', 'Lorem Ipsum', CURRENT_TIMESTAMP);  
 INSERT INTO articles ('user_id', 'name') VALUES (1, 'the effect of cows'); 
 INSERT INTO articles ('user_id', 'name', 'content') VALUES (2, 'what you should know about me', 'Lorem Ipsum'); 
 
