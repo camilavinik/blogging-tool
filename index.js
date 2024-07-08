@@ -27,7 +27,17 @@ global.db = new sqlite3.Database('./database.db', function (err) {
 
 // Handle requests to the home page
 app.get('/', (req, res) => {
-  res.send('Hello World!');
+  // Define the query
+  query = 'SELECT user_name, user_id FROM users';
+
+  // Execute the query and render the page with the results
+  global.db.all(query, function (err, rows) {
+    if (err) {
+      next(err); //send the error on to the error handler
+    } else {
+      res.render('home.ejs', { authors: rows });
+    }
+  });
 });
 
 // Add all the route handlers in usersRoutes to the app under the path /users
