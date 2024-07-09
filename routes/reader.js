@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const util = require('util');
 
+const { addRead, removeRead } = require('../helpers/reads.js');
+
 const dbAll = util.promisify(global.db.all).bind(global.db);
 const dbGet = util.promisify(global.db.get).bind(global.db);
 const dbRun = util.promisify(global.db.run).bind(global.db);
@@ -66,9 +68,7 @@ router.get('/article/:id', async (req, res, next) => {
     const comments = await dbAll(commentsQuery, [req.params.id]);
 
     // Update read count by 1
-    const addRead =
-      'UPDATE articles SET number_of_reads=number_of_reads + 1 WHERE id=?';
-    await dbAll(addRead, [req.params.id]);
+    await addRead(req.params.id);
 
     // Render the page with the article
     res.render('reader/article.ejs', {
@@ -93,6 +93,9 @@ router.post('/:id/comment', async (req, res, next) => {
       "INSERT INTO comments ('article_id', 'content') VALUES (?, ?)";
     await dbRun(createComment, [req.params.id, req.body.content]);
 
+    // Avoid counting read of reload
+    await removeRead(req.params.id);
+
     // Redirect to the page we were at
     res.redirect('back');
   } catch (err) {
@@ -105,10 +108,13 @@ router.post('/:id/comment', async (req, res, next) => {
  */
 router.post('/:id/like', async (req, res, next) => {
   try {
-    // Update read count by 1
+    // Update like count by 1
     const addRead =
       'UPDATE articles SET number_of_likes=number_of_likes + 1 WHERE id=?';
     await dbAll(addRead, [req.params.id]);
+
+    // Avoid counting read of reload
+    await removeRead(req.params.id);
 
     // Redirect to the page we were at
     res.redirect('back');
