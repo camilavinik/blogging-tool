@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/2d9060194c.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet"  type="text/css" href="/main.css" />
-    <link rel="stylesheet"  type="text/css" href="/author.css" />
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+    <link rel="stylesheet" type="text/css" href="/author.css" />
     <title>Author Home Page</title>
 </head>
+
 <body class="body">
     <header class="header">
         <div>
-            <h1 class="title"><%= authorName %></h1>
+            <h1 class="title">
+                <%= authorName %>
+            </h1>
             <h6 class="title">HOME PAGE</h1>
         </div>
         <nav>
@@ -22,14 +26,18 @@
         </nav>
     </header>
     <div class="main-container">
-        <h2><%= blogTitle %></h2>
+        <h2>
+            <%= blogTitle %>
+        </h2>
         <h5>PUBLISHED ARTICLES</h5>
         <ul class="articles-list">
             <% publishedArticles.forEach(function(article) { %>
                 <li class="article-container">
                     <div class="space-between">
                         <div class="article-header">
-                            <h3><%= article.name %></h3>
+                            <h3>
+                                <%= article.name %>
+                            </h3>
                             <div>
                                 <i class="fa-regular fa-eye"></i>
                                 <%= article.number_of_reads %>
@@ -47,22 +55,28 @@
                         </div>
                     </div>
                     <div>
-                        <p class="information">CREATED: <%= article.created_at %></p>
-                        <p class="information">PUBLISHED: <%= article.published_at %></p>
-                        <p class="information">MODIFIED: <%= article.last_modified %></p>
+                        <p class="information">CREATED: <%= article.created_at %>
+                        </p>
+                        <p class="information">PUBLISHED: <%= article.published_at %>
+                        </p>
+                        <p class="information">MODIFIED: <%= article.last_modified %>
+                        </p>
                     </div>
                 </li>
-            <% }) %>
+                <% }) %>
         </ul>
         <h5>DRAFT ARTICLES</h5>
         <ul class="articles-list">
             <% draftArticles.forEach(function(article) { %>
                 <li class="article-container">
                     <div class="space-between">
-                        <h3><%= article.name %></h3>
+                        <h3>
+                            <%= article.name %>
+                        </h3>
                         <div class="actions-container">
                             <form action="/author/article/<%= article.id %>" method="get">
-                                <button class="button" type="submit">EDIT  <i class="fa-solid fa-arrow-up-right-from-square"></i></button>
+                                <button class="button" type="submit">EDIT <i
+                                        class="fa-solid fa-arrow-up-right-from-square"></i></button>
                             </form>
                             <form action="/author/publish" method="post">
                                 <input type="hidden" name="id" value="<%= article.id %>" /> <!-- ID of the article -->
@@ -75,12 +89,15 @@
                         </div>
                     </div>
                     <div>
-                        <p class="information">CREATED: <%= article.created_at %></p>
-                        <p class="information">MODIFIED: <%= article.last_modified %></p>
+                        <p class="information">CREATED: <%= article.created_at %>
+                        </p>
+                        <p class="information">MODIFIED: <%= article.last_modified %>
+                        </p>
                     </div>
                 </li>
-            <% }) %>
+                <% }) %>
         </ul>
     </div>
 </body>
+
 </html>

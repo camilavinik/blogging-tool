@@ -32,6 +32,14 @@ CREATE TABLE IF NOT EXISTS articles (
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
+CREATE TABLE IF NOT EXISTS comments (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    article_id  INT NOT NULL, --the article that the comment belongs to
+    content TEXT,
+    created_at DATE DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (article_id) REFERENCES articles(id)
+);
+
 -- Insert default data (if necessary here)
 
 -- Set up three users

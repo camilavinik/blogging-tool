@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/2d9060194c.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet"  type="text/css" href="/main.css" />
-    <link rel="stylesheet"  type="text/css" href="/author.css" />
-    <title>Edit <%= name %></title>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+    <link rel="stylesheet" type="text/css" href="/author.css" />
+    <title>Edit <%= name %>
+    </title>
 </head>
+
 <body class="body">
     <header class="header">
         <div>
-            <h1 class="title"><%= authorName %></h1>
+            <h1 class="title">
+                <%= authorName %>
+            </h1>
             <h6 class="title">EDIT ARTICLE</h1>
         </div>
         <nav>
@@ -31,7 +36,8 @@
         <label class="information">TITLE</label>
         <input type="text" name="name" value="<%= name %>" />
         <label class="information">CONTENT</label>
-        <textarea type="text" name="content" name="lname"><%= content %></textarea>
+        <textarea type="text" name="content"><%= content %></textarea>
     </form>
 </body>
+
 </html>

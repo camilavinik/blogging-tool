@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/2d9060194c.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+    <link rel="stylesheet" type="text/css" href="/author.css" />
+    <title>
+        <%= name %>
+    </title>
+</head>
+
+<body class="body">
+    <header class="header">
+        <div>
+            <h1 class="title">
+                <%= authorName %>
+            </h1>
+            <h6 class="title">READ ARTICLE</h1>
+        </div>
+        <nav>
+            <ul class="navigation-container">
+                <li><a href="/reader/<%= authorId %>">AUTHOR HOME</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="main-container">
+        <div class="buttons-container">
+            <a href="/reader/<%= authorId %>"><button type="button" class="button">BACK</button></a>
+            <form action="/reader/<%= id %>/like/" method="POST">
+                <button type="submit" class="button">LIKE</button>
+            </form>
+        </div>
+        <div class="article-header">
+            <h2>
+                <%= name %>
+            </h2>
+            <div>
+                <i class="fa-regular fa-eye"></i>
+                <%= number_of_reads %>
+            </div>
+            <div>
+                <i class="fa-regular fa-thumbs-up"></i>
+                <%= number_of_likes %>
+            </div>
+        </div>
+        <p>
+            <%= content %>
+        </p>
+        <label class="information">COMMENTS</label>
+        <form action="/reader/<%= id %>/comment" method="POST">
+            <textarea type="text" name="content"></textarea>
+            <br />
+            <button type="submit" class="button">COMMENT</button>
+        </form>
+        <div class="comments-container">
+            <% comments.forEach(function(comment) { %>
+                <li class="comment-container">
+                    <h3>
+                        <%= comment.content %>
+                    </h3>
+                </li>
+                <% }) %>
+        </div>
+    </div>
+</body>
+
+</html>
