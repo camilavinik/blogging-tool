@@ -7,6 +7,7 @@
     <script src="https://kit.fontawesome.com/2d9060194c.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="/main.css" />
     <link rel="stylesheet" type="text/css" href="/author.css" />
+    <link rel="stylesheet" type="text/css" href="/reader.css" />
     <title>
         <%= name %>
     </title>
@@ -52,12 +53,11 @@
         <label class="information">COMMENTS</label>
         <form action="/reader/<%= id %>/comment" method="POST">
             <textarea type="text" name="content"></textarea>
-            <br />
             <button type="submit" class="button">COMMENT</button>
         </form>
         <ul class="comments-container">
             <% comments.forEach(function(comment) { %>
-                <li class="comment-container">
+                <li class="article-container">
                     <h3>
                         <%= comment.content %>
                     </h3>
