@@ -1,12 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const util = require('util');
 
+const { dbRun, dbAll, dbGet } = require('../helpers/promises.js');
 const { addRead, removeRead } = require('../helpers/reads.js');
-
-const dbAll = util.promisify(global.db.all).bind(global.db);
-const dbGet = util.promisify(global.db.get).bind(global.db);
-const dbRun = util.promisify(global.db.run).bind(global.db);
 
 /**
  * @desc Display reader's home page
@@ -16,7 +12,7 @@ router.get('/:id', async (req, res, next) => {
 
   try {
     // Define the query to users table
-    const authorQuery = `SELECT user_name, blog_title FROM users WHERE user_id=${req.params.id} `;
+    const authorQuery = `SELECT user_name, blog_title FROM users WHERE user_id=${req.params.id}`;
     // Execute the query
     const author = await dbGet(authorQuery);
 

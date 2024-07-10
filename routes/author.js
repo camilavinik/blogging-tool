@@ -1,11 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const util = require('util');
 
-// Promisify the db methods
-const dbRun = util.promisify(global.db.run).bind(global.db);
-const dbAll = util.promisify(global.db.all).bind(global.db);
-const dbGet = util.promisify(global.db.get).bind(global.db);
+const { dbRun, dbAll, dbGet } = require('../helpers/promises.js');
 
 /**
  * @desc //TODO WRITE
