@@ -11,15 +11,15 @@ router.get('/:id', async (req, res, next) => {
   let variables = {};
 
   try {
-    // Define the query to users table
-    const authorQuery = `SELECT user_name, blog_title FROM users WHERE user_id=${req.params.id}`;
-    // Execute the query
-    const author = await dbGet(authorQuery);
+    // Get author information
+    const authorQuery =
+      'SELECT user_name, blog_title FROM users WHERE user_id=?';
+    const author = await dbGet(authorQuery, [req.params.id]);
 
-    if (!author) {
-      return res.status(404).send('Author not found');
-    }
+    // If no author found return 404
+    if (!author) return res.status(404).send('Author not found');
 
+    // Set author variables for EJS template
     variables = {
       authorName: author.user_name,
       authorId: req.params.id,
@@ -28,11 +28,12 @@ router.get('/:id', async (req, res, next) => {
         : `The blog of ${author.user_name}`,
     };
 
-    // Define the query to articles table ordered
-    const articlesQuery = `SELECT id, name, published_at, number_of_reads, number_of_likes FROM articles WHERE user_id=${req.params.id} AND published_at NOT NULL ORDER BY published_at DESC`;
-    // Execute the query
-    const articles = await dbAll(articlesQuery);
+    // Get author's articles
+    const articlesQuery =
+      'SELECT id, name, published_at, number_of_reads, number_of_likes FROM articles WHERE user_id=? AND published_at NOT NULL ORDER BY published_at DESC';
+    const articles = await dbAll(articlesQuery, [req.params.id]);
 
+    // Add articles to EJS template variables
     variables = { ...variables, articles };
 
     // Render the page with the results
@@ -47,16 +48,17 @@ router.get('/:id', async (req, res, next) => {
  */
 router.get('/article/:id', async (req, res, next) => {
   try {
-    // Define the query to get selected article
-    const articleQuery = `SELECT id, name, content, user_id, number_of_likes, number_of_reads FROM articles WHERE id=${req.params.id}`;
-    // Execute the query
-    const article = await dbGet(articleQuery);
+    // Get article information
+    const articleQuery =
+      'SELECT id, name, content, user_id, number_of_likes, number_of_reads FROM articles WHERE id=?';
+    const article = await dbGet(articleQuery, [req.params.id]);
 
+    // If no article found return 404
     if (!article) return res.status(404).send('Article not found');
 
-    // Get author information
-    const authorQuery = `SELECT user_name, user_id FROM users WHERE user_id=${article.user_id}`;
-    const author = await dbGet(authorQuery);
+    // Get article's author information
+    const authorQuery = 'SELECT user_name, user_id FROM users WHERE user_id=?';
+    const author = await dbGet(authorQuery, [article.user_id]);
 
     // Get article comments
     const commentsQuery =
@@ -66,7 +68,7 @@ router.get('/article/:id', async (req, res, next) => {
     // Update read count by 1
     await addRead(req.params.id);
 
-    // Render the page with the article
+    // Render the page with the article and author information
     res.render('reader/article.ejs', {
       ...article,
       number_of_reads: article.number_of_reads + 1,
@@ -89,7 +91,7 @@ router.post('/:id/comment', async (req, res, next) => {
       "INSERT INTO comments ('article_id', 'content') VALUES (?, ?)";
     await dbRun(createComment, [req.params.id, req.body.content]);
 
-    // Avoid counting read of reload
+    // Avoid counting read at reload
     await removeRead(req.params.id);
 
     // Redirect to the page we were at
@@ -107,9 +109,9 @@ router.post('/:id/like', async (req, res, next) => {
     // Update like count by 1
     const addRead =
       'UPDATE articles SET number_of_likes=number_of_likes + 1 WHERE id=?';
-    await dbAll(addRead, [req.params.id]);
+    await dbRun(addRead, [req.params.id]);
 
-    // Avoid counting read of reload
+    // Avoid counting read at reload
     await removeRead(req.params.id);
 
     // Redirect to the page we were at
