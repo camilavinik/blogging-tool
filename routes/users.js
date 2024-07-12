@@ -31,14 +31,23 @@ router.get('/list-users', (req, res, next) => {
 });
 
 /**
- * @desc Displays a page with a form for creating a user record
+ * @route GET /signup
+ * @desc Display the signup form
+ * @access Public
+ * @returns {HTML} The signup form
  */
 router.get('/signup', (req, res) => {
   res.render('add-user.ejs');
 });
 
 /**
- * @desc Add a new user to the database based on data from the submitted form
+ * @route POST /signup
+ * @desc Create a new user record and log the user in
+ * @access Public
+ * @param {string} req.body.user_name - The user's name
+ * @param {string} req.body.email - The user's email
+ * @param {string} req.body.password - The user's password
+ * @returns {HTML} Redirect to the main home page
  */
 router.post('/signup', async (req, res, next) => {
   const { user_name, email, password } = req.body;
