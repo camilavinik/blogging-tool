@@ -37,7 +37,7 @@
                     <div class="space-between">
                         <div class="article-header">
                             <h3>
-                                <%= article.name %>
+                                <%= article.title %>
                             </h3>
                             <div>
                                 <i class="fa-regular fa-eye"></i>
@@ -49,10 +49,11 @@
                             </div>
                         </div>
                         <div class="actions-container">
-                            <a href="/reader/article/<%= article.id %>" target="_blank"><button class="button"
+                            <a href="/reader/article/<%= article.article_id %>" target="_blank"><button class="button"
                                     type="submit">SHARE <i class="fa-solid fa-arrow-up-right-from-square"></i></button>
                             </a>
-                            <form action="/author/<%= authorId %>/article/<%= article.id %>/delete" method="POST">
+                            <form action="/author/<%= authorId %>/article/<%= article.article_id %>/delete"
+                                method="POST">
                                 <button class="button red" type="submit">DELETE</button>
                             </form>
                         </div>
@@ -74,17 +75,19 @@
                 <li class="article-container">
                     <div class="space-between">
                         <h3>
-                            <%= article.name %>
+                            <%= article.title %>
                         </h3>
                         <div class="actions-container">
-                            <form action="/author/<%= authorId %>/article/<%= article.id %>" method="GET">
+                            <form action="/author/<%= authorId %>/article/<%= article.article_id %>" method="GET">
                                 <button class="button" type="submit">EDIT <i
                                         class="fa-solid fa-arrow-up-right-from-square"></i></button>
                             </form>
-                            <form action="/author/<%= authorId %>/article/<%= article.id %>/publish" method="POST">
+                            <form action="/author/<%= authorId %>/article/<%= article.article_id %>/publish"
+                                method="POST">
                                 <button class="button" type="submit">PUBLISH</button>
                             </form>
-                            <form action="/author/<%= authorId %>/article/<%= article.id %>/delete" method="POST">
+                            <form action="/author/<%= authorId %>/article/<%= article.article_id %>/delete"
+                                method="POST">
                                 <button class="button red" type="submit">DELETE</button>
                             </form>
                         </div>
@@ -101,9 +104,9 @@
     </div>
     <div class="footer">
         <h3 class="title" class="information">
-            LOGGED IN AS <%= currentUser %>
+            LOGGED IN AS <%= authorName %>
         </h3>
-        <form action="/logout" method="GET">
+        <form action="/logout" method="POST">
             <button type="submit" class="button">LOG OUT</button>
         </form>
     </div>

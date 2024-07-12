@@ -31,12 +31,12 @@
         <h5>ARTICLES</h5>
         <ul class="articles-list">
             <% articles.forEach(function(article) { %>
-                <a href="/reader/article/<%= article.id %>">
+                <a href="/reader/article/<%= article.article_id %>">
                     <li class="article-container">
                         <div class="space-between">
                             <div class="article-header">
                                 <h3>
-                                    <%= article.name %>
+                                    <%= article.title %>
                                 </h3>
                                 <div>
                                     <i class="fa-regular fa-eye"></i>
@@ -62,7 +62,7 @@
             <h3 class="title" class="information">
                 LOGGED IN AS <%= currentUser %>
             </h3>
-            <form action="/logout" method="GET">
+            <form action="/logout" method="POST">
                 <button type="submit" class="button">LOG OUT</button>
             </form>
             <% } else { %>

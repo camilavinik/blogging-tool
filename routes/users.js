@@ -31,7 +31,7 @@ router.get('/list-users', (req, res, next) => {
 });
 
 /**
- * @route GET /signup
+ * @route GET users/signup
  * @desc Display the signup form
  * @access Public
  * @returns {HTML} The signup form
@@ -41,7 +41,7 @@ router.get('/signup', (req, res) => {
 });
 
 /**
- * @route POST /signup
+ * @route POST users/signup
  * @desc Create a new user record and log the user in
  * @access Public
  * @param {string} req.body.user_name - The user's name

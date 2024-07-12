@@ -60,12 +60,12 @@ app.get('/', (req, res) => {
 });
 
 /**
- * @route GET /logout
+ * @route POST /logout
  * @desc Log the user out
  * @access Public
  * @returns {Redirect} Redirect to the main home page
  */
-app.get('/logout', (req, res) => {
+app.post('/logout', (req, res) => {
   req.session.destroy();
   res.redirect('/');
 });

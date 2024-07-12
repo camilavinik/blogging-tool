@@ -39,9 +39,9 @@
     </form>
     <div class="footer">
         <h3 class="title" class="information">
-            LOGGED IN AS <%= currentUser %>
+            LOGGED IN AS <%= authorName %>
         </h3>
-        <form action="/logout" method="GET">
+        <form action="/logout" method="POST">
             <button type="submit" class="button">LOG OUT</button>
         </form>
     </div>

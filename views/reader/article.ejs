@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="/author.css" />
     <link rel="stylesheet" type="text/css" href="/reader.css" />
     <title>
-        <%= name %>
+        <%= title %>
     </title>
 </head>
 
@@ -31,14 +31,14 @@
     <div class="main-container">
         <div class="buttons-container">
             <a href="/reader/<%= authorId %>"><button type="button" class="button">BACK</button></a>
-            <form action="/reader/article/<%= id %>/like" method="POST">
+            <form action="/reader/article/<%= article_id %>/like" method="POST">
                 <button type="submit" class="button">LIKE</button>
             </form>
         </div>
         <div>
             <div class="article-header">
                 <h2>
-                    <%= name %>
+                    <%= title %>
                 </h2>
                 <div>
                     <i class="fa-regular fa-eye"></i>
@@ -57,7 +57,7 @@
             <%= content %>
         </p>
         <label class="information">COMMENTS</label>
-        <form action="/reader/article/<%= id %>/comment" method="POST">
+        <form action="/reader/article/<%= article_id %>/comment" method="POST">
             <% if (!currentUser) {%>
                 <input name="commented_by" value="" placeholder="Your Name" required />
                 <% } else {%>
@@ -86,7 +86,7 @@
             <h3 class="title" class="information">
                 LOGGED IN AS <%= currentUser %>
             </h3>
-            <form action="/logout" method="GET">
+            <form action="/logout" method="POST">
                 <button type="submit" class="button">LOG OUT</button>
             </form>
             <% } else { %>

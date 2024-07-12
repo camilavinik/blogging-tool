@@ -34,9 +34,9 @@ router.get('/:user_id', isAuthenticated, async (req, res, next) => {
 
     // Define queries for draft and published articles
     const publishedArticlesQuery =
-      'SELECT id, name, content, created_at, published_at, last_modified, number_of_reads, number_of_likes FROM articles WHERE user_id = ? AND published_at NOT NULL';
+      'SELECT article_id, title, content, created_at, published_at, last_modified, number_of_reads, number_of_likes FROM articles WHERE user_id = ? AND published_at NOT NULL';
     const draftArticlesQuery =
-      'SELECT id, name, content, created_at, published_at, last_modified, number_of_reads, number_of_likes FROM articles WHERE user_id = ? AND published_at IS NULL';
+      'SELECT article_id, title, content, created_at, published_at, last_modified, number_of_reads, number_of_likes FROM articles WHERE user_id = ? AND published_at IS NULL';
 
     // Execute the queries at the same time
     const [publishedArticles, draftArticles] = await Promise.all([
@@ -134,7 +134,8 @@ router.post(
       const { user_id, article_id } = req.params;
 
       // Define the query to delete the article
-      const deleteQuery = 'DELETE FROM articles WHERE id = ? AND user_id = ?';
+      const deleteQuery =
+        'DELETE FROM articles WHERE article_id = ? AND user_id = ?';
 
       // Execute the query
       await dbRun(deleteQuery, [article_id, user_id]);
@@ -164,7 +165,7 @@ router.post(
 
       // Define the query to publish the article
       const publishQuery =
-        'UPDATE articles SET published_at = CURRENT_TIMESTAMP WHERE id = ? AND user_id = ?';
+        'UPDATE articles SET published_at = CURRENT_TIMESTAMP WHERE article_id = ? AND user_id = ?';
 
       // Execute the query
       await dbRun(publishQuery, [article_id, user_id]);
@@ -189,7 +190,7 @@ router.get('/:user_id/article/new', isAuthenticated, async (req, res, next) => {
     // Render the page with an empty article
     res.render('author/article.ejs', {
       isNewArticle: true,
-      name: '',
+      title: '',
       content: '',
       authorName: req.session.user_name,
       authorId: req.session.user_id,
@@ -204,7 +205,7 @@ router.get('/:user_id/article/new', isAuthenticated, async (req, res, next) => {
  * @desc Creates a new article.
  * @access Private (requires authentication and authorisation)
  * @param {string} req.params.user_id - The user id of the author (user)
- * @param {string} req.body.name - The name of the new article
+ * @param {string} req.body.title - The title of the new article
  * @param {string} req.body.content - The content of the new article
  * @returns {Redirect} Redirects to the created article edit page
  */
@@ -214,13 +215,17 @@ router.post(
   async (req, res, next) => {
     try {
       const { user_id } = req.params;
-      const { name, content } = req.body;
+      const { title, content } = req.body;
 
       // Create the article
-      const createArticleQuery = `INSERT INTO articles (name, content, user_id) VALUES (?, ?, ?)`;
-      const { id } = await dbRun(createArticleQuery, [name, content, user_id]);
+      const createArticleQuery = `INSERT INTO articles (title, content, user_id) VALUES (?, ?, ?)`;
+      const { id: article_id } = await dbRun(createArticleQuery, [
+        title,
+        content,
+        user_id,
+      ]);
 
-      res.redirect(`/author/${user_id}/article/${id}`);
+      res.redirect(`/author/${user_id}/article/${article_id}`);
     } catch (err) {
       next(err); //send the error on to the error handler
     }
@@ -244,7 +249,7 @@ router.get(
 
       // Get article information
       const articleQuery =
-        'SELECT id, name, content, user_id FROM articles WHERE id = ? AND user_id = ?';
+        'SELECT article_id, title, content, user_id FROM articles WHERE article_id = ? AND user_id = ?';
       const article = await dbGet(articleQuery, [article_id, user_id]);
 
       // If no article found return 404
@@ -270,7 +275,7 @@ router.get(
  * @access Private (requires authentication and authorisation)
  * @param {string} req.params.user_id - The user id of the author (user)
  * @param {string} req.params.article_id - The article id to edit
- * @param {string} req.body.name - The new name of the article
+ * @param {string} req.body.title - The new title of the article
  * @param {string} req.body.content - The new content of the article
  * @returns {Redirect} Redirects to the current page
  */
@@ -280,14 +285,14 @@ router.post(
   async (req, res, next) => {
     try {
       const { article_id, user_id } = req.params;
-      const { name, content } = req.body;
+      const { title, content } = req.body;
 
       // Define the query to edit the article
       const editQuery =
-        'UPDATE articles SET last_modified = CURRENT_TIMESTAMP, name = ?, content = ? WHERE id = ? AND user_id = ?';
+        'UPDATE articles SET last_modified = CURRENT_TIMESTAMP, title = ?, content = ? WHERE article_id = ? AND user_id = ?';
 
       // Execute the query
-      await dbRun(editQuery, [name, content, article_id, user_id]);
+      await dbRun(editQuery, [title, content, article_id, user_id]);
 
       // Redirect to the page we were at
       res.redirect('back');

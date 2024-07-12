@@ -15,31 +15,31 @@ CREATE TABLE IF NOT EXISTS users (
 
 CREATE TABLE IF NOT EXISTS email_accounts (
     email_account_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    email_address TEXT NOT NULL,
-    user_id  INT, --the user that the email account belongs to
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
+    email_address TEXT NOT NULL UNIQUE,
+    user_id  INTEGER NOT NULL, --the user that the email account belongs to
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS articles (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id  INT NOT NULL, --the user that the article belongs to
-    name TEXT,
+    article_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL, --the user that the article belongs to
+    title TEXT NOT NULL,
     content TEXT,
-    created_at DATE DEFAULT CURRENT_TIMESTAMP,
-    last_modified DATE DEFAULT CURRENT_TIMESTAMP,
-    published_at DATE,
-    number_of_reads INT DEFAULT 0,
-    number_of_likes INT DEFAULT 0,
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    published_at TIMESTAMP,
+    number_of_reads INTEGER DEFAULT 0,
+    number_of_likes INTEGER DEFAULT 0,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS comments (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    article_id  INT NOT NULL, --the article that the comment belongs to
+    comment_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    article_id  INTEGER NOT NULL, --the article that the comment belongs to
     commented_by TEXT NOT NULL, --name of the user that made the comment
-    content TEXT,
-    created_at DATE DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (article_id) REFERENCES articles(id)
+    content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (article_id) REFERENCES articles(article_id) ON DELETE CASCADE
 );
 
 -- Insert default data (if necessary here)
@@ -56,10 +56,10 @@ INSERT INTO email_accounts ('email_address', 'user_id') VALUES ('test@mail.com',
 INSERT INTO email_accounts ('email_address', 'user_id') VALUES ('dianne@yahoo.co.uk', 2); 
 
 -- Insert articles
-INSERT INTO articles ('user_id', 'name', 'content', 'published_at') VALUES (1, 'my first article', 'Lorem Ipsum', CURRENT_TIMESTAMP);
-INSERT INTO articles ('user_id', 'name', 'content', 'published_at') VALUES (1, 'my second article', 'Lorem Ipsum', CURRENT_TIMESTAMP);  
-INSERT INTO articles ('user_id', 'name') VALUES (1, 'the effect of cows'); 
-INSERT INTO articles ('user_id', 'name', 'content') VALUES (2, 'what you should know about me', 'Lorem Ipsum'); 
+INSERT INTO articles ('user_id', 'title', 'content', 'published_at') VALUES (1, 'my first article', 'Lorem Ipsum', CURRENT_TIMESTAMP);
+INSERT INTO articles ('user_id', 'title', 'content', 'published_at') VALUES (1, 'my second article', 'Lorem Ipsum', CURRENT_TIMESTAMP);  
+INSERT INTO articles ('user_id', 'title') VALUES (1, 'the effect of cows'); 
+INSERT INTO articles ('user_id', 'title', 'content') VALUES (2, 'what you should know about me', 'Lorem Ipsum'); 
 
 COMMIT;
 

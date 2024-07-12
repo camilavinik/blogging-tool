@@ -7,7 +7,7 @@
     <script src="https://kit.fontawesome.com/2d9060194c.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="/main.css" />
     <link rel="stylesheet" type="text/css" href="/author.css" />
-    <title>Edit <%= name %>
+    <title>Edit <%= title %>
     </title>
 </head>
 
@@ -28,22 +28,23 @@
             </ul>
         </nav>
     </header>
-    <form action="<%= isNewArticle ? `/author/${authorId}/article/new` : `/author/${authorId}/article/${id}/edit` %>"
+    <form
+        action="<%= isNewArticle ? `/author/${authorId}/article/new` : `/author/${authorId}/article/${article_id}/edit` %>"
         method="POST" class="main-container">
         <div class="buttons-container">
             <a href="/author/<%= authorId %>"><button type="button" class="button">BACK</button></a>
             <button class="button" type="submit">SUBMIT CHANGES</button>
         </div>
         <label class="information">TITLE</label>
-        <input type="text" name="name" value="<%= name %>" required />
+        <input type="text" name="title" value="<%= title %>" required />
         <label class="information">CONTENT</label>
         <textarea type="text" name="content"><%= content %></textarea>
     </form>
     <div class="footer">
         <h3 class="title" class="information">
-            LOGGED IN AS <%= currentUser %>
+            LOGGED IN AS <%= authorName %>
         </h3>
-        <form action="/logout" method="GET">
+        <form action="/logout" method="POST">
             <button type="submit" class="button">LOG OUT</button>
         </form>
     </div>
