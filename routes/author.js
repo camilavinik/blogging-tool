@@ -150,6 +150,53 @@ router.post(
 /**
  * @desc //TODO WRITE
  */
+router.get('/:user_id/article/new', isAuthenticated, async (req, res, next) => {
+  try {
+    const { user_id } = req.params;
+
+    // Get author information
+    const authorQuery =
+      'SELECT user_name, user_id FROM users WHERE user_id = ?';
+    const author = await dbGet(authorQuery, [user_id]);
+
+    // Render the page with the article
+    res.render('author/article.ejs', {
+      isNewArticle: true,
+      name: '',
+      content: '',
+      authorName: author.user_name,
+      authorId: author.user_id,
+    });
+  } catch (err) {
+    next(err); //send the error on to the error handler
+  }
+});
+
+/**
+ * @desc //TODO WRITE
+ */
+router.post(
+  '/:user_id/article/new',
+  isAuthenticated,
+  async (req, res, next) => {
+    try {
+      const { user_id } = req.params;
+      const { name, content } = req.body;
+
+      // Create the article
+      const createArticleQuery = `INSERT INTO articles (name, content, user_id) VALUES (?, ?, ?)`;
+      const { id } = await dbRun(createArticleQuery, [name, content, user_id]);
+
+      res.redirect(`/author/${user_id}/article/${id}`);
+    } catch (err) {
+      next(err); //send the error on to the error handler
+    }
+  }
+);
+
+/**
+ * @desc //TODO WRITE
+ */
 router.get(
   '/:user_id/article/:article_id',
   isAuthenticated,
@@ -172,6 +219,7 @@ router.get(
 
       // Render the page with the article
       res.render('author/article.ejs', {
+        isNewArticle: false,
         ...article,
         authorName: author.user_name,
         authorId: author.user_id,

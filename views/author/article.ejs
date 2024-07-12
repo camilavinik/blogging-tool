@@ -22,13 +22,14 @@
         <nav>
             <ul class="navigation-container">
                 <li><a href="/author/<%= authorId %>">AUTHOR HOME</a></li>
-                <li>CREATE NEW DRAFT</li>
+                <li><a href="/author/<%= authorId %>/article/new">CREATE NEW DRAFT</a></li>
                 <li><a href="/author/<%= authorId %>/settings">SETTINGS</a></li>
                 <li><a href="/">MAIN HOME</a></li>
             </ul>
         </nav>
     </header>
-    <form action="/author/<%= authorId %>/article/<%= id %>/edit" method="post" class="main-container">
+    <form action="<%= isNewArticle ? `/author/${authorId}/article/new` : `/author/${authorId}/article/${id}/edit` %>"
+        method="POST" class="main-container">
         <div class="buttons-container">
             <a href="/author/<%= authorId %>"><button type="button" class="button">BACK</button></a>
             <button class="button" type="submit">SUBMIT CHANGES</button>

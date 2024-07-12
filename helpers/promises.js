@@ -6,9 +6,19 @@ const util = require('util');
  *
  * @param {string} sql - The SQL query to execute.
  * @param {Array} [params] - Optional array of parameters for the SQL query.
- * @returns {Promise}
+ * @returns {Promise<Object>} - A promise that resolves with the modified object id
  */
-const dbRun = util.promisify(global.db.run).bind(global.db);
+function dbRun(query, params) {
+  return new Promise((resolve, reject) => {
+    db.run(query, params, function (err) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve({ id: this.lastID });
+      }
+    });
+  });
+}
 
 /**
  * Promisified version of global.db.all for executing SQL queries that return multiple rows.
