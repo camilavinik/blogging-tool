@@ -8,6 +8,7 @@ BEGIN TRANSACTION;
 
 CREATE TABLE IF NOT EXISTS users (
     user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    hashed_password TEXT NOT NULL,
     user_name TEXT NOT NULL,
     blog_title TEXT
 );
@@ -43,13 +44,14 @@ CREATE TABLE IF NOT EXISTS comments (
 -- Insert default data (if necessary here)
 
 -- Set up three users
-INSERT INTO users ('user_name') VALUES ('Simon Star');
-INSERT INTO users ('user_name', 'blog_title') VALUES ('Dianne Dean', 'Hello world');
-INSERT INTO users ('user_name', 'blog_title') VALUES ('Harry Hilbert', 'The Life of Harry');
+INSERT INTO users ('user_name', 'hashed_password') VALUES ('Simon Star', '$2b$10$YbvbRFiFqScKc9H.zfdQyebqrZcNf1uA0x.7XS2lPp9q4Q6.cffFm'); -- password is 'password123'
+INSERT INTO users ('user_name', 'blog_title', 'hashed_password') VALUES ('Dianne Dean', 'Hello world', '$2b$10$YbvbRFiFqScKc9H.zfdQyebqrZcNf1uA0x.7XS2lPp9q4Q6.cffFm'); -- password is 'password123'
+INSERT INTO users ('user_name', 'blog_title', 'hashed_password') VALUES ('Harry Hilbert', 'The Life of Harry', '$2b$10$YbvbRFiFqScKc9H.zfdQyebqrZcNf1uA0x.7XS2lPp9q4Q6.cffFm'); -- password is 'password123'
 
 -- Give Simon two email addresses and Diane one, but Harry has none
 INSERT INTO email_accounts ('email_address', 'user_id') VALUES ('simon@gmail.com', 1); 
 INSERT INTO email_accounts ('email_address', 'user_id') VALUES ('simon@hotmail.com', 1); 
+INSERT INTO email_accounts ('email_address', 'user_id') VALUES ('test@mail.com', 1); 
 INSERT INTO email_accounts ('email_address', 'user_id') VALUES ('dianne@yahoo.co.uk', 2); 
 
 -- Insert articles

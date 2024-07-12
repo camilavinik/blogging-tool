@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
+const { isAuthenticated } = require('../middlewares/index.js');
 
 const { dbRun, dbAll, dbGet } = require('../helpers/promises.js');
 
 /**
  * @desc //TODO WRITE
  */
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', isAuthenticated, async (req, res, next) => {
   let variables = {};
 
   try {
