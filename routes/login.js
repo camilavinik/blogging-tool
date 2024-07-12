@@ -13,18 +13,20 @@ router.post('/', async (req, res, next) => {
 
   try {
     // Get user from the email
-    const userQuery =
+    const emailQuery =
       'SELECT user_id FROM email_accounts WHERE email_address = ?';
-    const user = await dbGet(userQuery, [email]);
+    const user = await dbGet(emailQuery, [email]);
 
     // If user does not exist, return invalid password for security reasons
     if (!user) return res.status(401).send('Invalid password');
 
     // Get the password from the users table
-    const passwordQuery = 'SELECT hashed_password FROM users WHERE user_id = ?';
-    const { hashed_password: userPassword } = await dbGet(passwordQuery, [
-      user.user_id,
-    ]);
+    const userQuery =
+      'SELECT hashed_password, user_name FROM users WHERE user_id = ?';
+    const { hashed_password: userPassword, user_name } = await dbGet(
+      userQuery,
+      [user.user_id]
+    );
 
     // Compare the password to the stored hashed password
     bycript.compare(password, userPassword, (err, result) => {
@@ -33,8 +35,9 @@ router.post('/', async (req, res, next) => {
       // If the password is incorrect, return invalid password
       if (!result) return res.status(401).send('Invalid password');
 
-      // Save the user_id in the session
+      // Save the user_id and user_name in the session
       req.session.user_id = user.user_id;
+      req.session.user_name = user_name;
 
       // Save the original URL in the session and delete it
       const redirectUrl = req.session.originalUrl;

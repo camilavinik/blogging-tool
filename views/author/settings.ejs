@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/2d9060194c.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet"  type="text/css" href="/main.css" />
-    <link rel="stylesheet"  type="text/css" href="/author.css" />
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+    <link rel="stylesheet" type="text/css" href="/author.css" />
     <title>Settings</title>
 </head>
+
 <body class="body">
     <header class="header">
         <div>
-            <h1 class="title"><%= authorName %></h1>
+            <h1 class="title">
+                <%= authorName %>
+            </h1>
             <h6 class="title">SETTINGS</h1>
         </div>
         <nav>
@@ -32,5 +36,14 @@
         <label class="information">BLOG TITLE</label>
         <input type="text" name="blogTitle" value="<%= blogTitle %>" required />
     </form>
+    <div class="footer">
+        <h3 class="title" class="information">
+            <%= authorName %>
+        </h3>
+        <form action="/logout" method="GET">
+            <button type="submit" class="button">LOG OUT</button>
+        </form>
+    </div>
 </body>
+
 </html>

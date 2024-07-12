@@ -72,7 +72,7 @@ textarea {
 
 .body {
     display: grid;
-    grid-template-rows: 98px auto;
+    grid-template-rows: 98px auto 44px;
     min-height: 100vh;
     background-color: #B6C4B6;
 }
@@ -111,4 +111,14 @@ textarea {
 
 .navigation-container > li {
     cursor: pointer;
+}
+
+.footer {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    color: #163020;
+    margin-bottom: auto;
+    text-transform: uppercase;
 }

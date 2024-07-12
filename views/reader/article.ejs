@@ -65,6 +65,20 @@
                 <% }) %>
         </ul>
     </div>
+    <div class="footer">
+        <% if (currentUser) { %>
+            <h3 class="title" class="information">
+                <%= currentUser %>
+            </h3>
+            <form action="/logout" method="GET">
+                <button type="submit" class="button">LOG OUT</button>
+            </form>
+            <% } else { %>
+                <form action="/login" method="GET">
+                    <button type="submit" class="button">LOG IN</button>
+                </form>
+                <% } %>
+    </div>
 </body>
 
 </html>

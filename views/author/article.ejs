@@ -38,6 +38,14 @@
         <label class="information">CONTENT</label>
         <textarea type="text" name="content"><%= content %></textarea>
     </form>
+    <div class="footer">
+        <h3 class="title" class="information">
+            <%= authorName %>
+        </h3>
+        <form action="/logout" method="GET">
+            <button type="submit" class="button">LOG OUT</button>
+        </form>
+    </div>
 </body>
 
 </html>

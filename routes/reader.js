@@ -21,6 +21,7 @@ router.get('/:id', async (req, res, next) => {
 
     // Set author variables for EJS template
     variables = {
+      currentUser: req.session.user_name, // pass the current user to the template
       authorName: author.user_name,
       authorId: req.params.id,
       blogTitle: author.blog_title
@@ -70,6 +71,7 @@ router.get('/article/:id', async (req, res, next) => {
 
     // Render the page with the article and author information
     res.render('reader/article.ejs', {
+      currentUser: req.session.user_name, // pass the current user to the template
       ...article,
       number_of_reads: article.number_of_reads + 1,
       comments,

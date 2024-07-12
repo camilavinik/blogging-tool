@@ -46,9 +46,17 @@ app.get('/', (req, res) => {
     if (err) {
       next(err); //send the error on to the error handler
     } else {
-      res.render('home.ejs', { authors: rows });
+      res.render('home.ejs', {
+        authors: rows,
+        currentUser: req.session.user_name, // pass the current user to the template
+      });
     }
   });
+});
+
+app.get('/logout', (req, res) => {
+  req.session.destroy();
+  res.redirect('/');
 });
 
 // Login routes

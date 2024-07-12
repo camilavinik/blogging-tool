@@ -11,7 +11,7 @@
 </head>
 
 <body class="body">
-    <form method="GET">
+    <form class="" method="GET">
         <select class="formInput" id="authorSelect">
             <% authors.forEach(function(author) { %>
                 <% if (author.user_id===1) { %>
@@ -28,6 +28,20 @@
         <button class="button formInput" id="readerButton" formaction="/reader/1">READER</button>
         <button class="button formInput" id="authorButton" formaction="/author/1">AUTHOR</button>
     </form>
+    <div class="footer">
+        <% if (currentUser) { %>
+            <h3 class="title" class="information">
+                <%= currentUser %>
+            </h3>
+            <form action="/logout" method="GET">
+                <button type="submit" class="button">LOG OUT</button>
+            </form>
+            <% } else { %>
+                <form action="/login" method="GET">
+                    <button type="submit" class="button">LOG IN</button>
+                </form>
+                <% } %>
+    </div>
 </body>
 <script>
     // Function to update Form Actions
