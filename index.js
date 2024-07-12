@@ -36,7 +36,12 @@ global.db = new sqlite3.Database('./database.db', function (err) {
   }
 });
 
-// Handle requests to the home page
+/**
+ * @route GET /
+ * @desc Display the main home page
+ * @access Public
+ * @returns {HTML} The main home page
+ */
 app.get('/', (req, res) => {
   // Define the query
   query = 'SELECT user_name, user_id FROM users';
@@ -54,6 +59,12 @@ app.get('/', (req, res) => {
   });
 });
 
+/**
+ * @route GET /logout
+ * @desc Log the user out
+ * @access Public
+ * @returns {Redirect} Redirect to the main home page
+ */
 app.get('/logout', (req, res) => {
   req.session.destroy();
   res.redirect('/');
