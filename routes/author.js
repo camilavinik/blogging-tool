@@ -152,20 +152,13 @@ router.post(
  */
 router.get('/:user_id/article/new', isAuthenticated, async (req, res, next) => {
   try {
-    const { user_id } = req.params;
-
-    // Get author information
-    const authorQuery =
-      'SELECT user_name, user_id FROM users WHERE user_id = ?';
-    const author = await dbGet(authorQuery, [user_id]);
-
-    // Render the page with the article
+    // Render the page with an empty article
     res.render('author/article.ejs', {
       isNewArticle: true,
       name: '',
       content: '',
-      authorName: author.user_name,
-      authorId: author.user_id,
+      authorName: req.session.user_name,
+      authorId: req.session.user_id,
     });
   } catch (err) {
     next(err); //send the error on to the error handler
@@ -212,17 +205,13 @@ router.get(
       // If no article found return 404
       if (!article) return res.status(404).send('Article not found');
 
-      // Get author information
-      const authorQuery =
-        'SELECT user_name, user_id FROM users WHERE user_id = ?';
-      const author = await dbGet(authorQuery, [article.user_id]);
-
       // Render the page with the article
       res.render('author/article.ejs', {
         isNewArticle: false,
         ...article,
-        authorName: author.user_name,
-        authorId: author.user_id,
+        // Author is the user of the session
+        authorName: req.session.user_name,
+        authorId: req.session.user_id,
       });
     } catch (err) {
       next(err); //send the error on to the error handler
