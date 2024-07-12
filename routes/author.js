@@ -24,7 +24,7 @@ router.get('/:id', isAuthenticated, async (req, res, next) => {
       authorName: author.user_name,
       authorId: req.params.id,
       blogTitle: author.blog_title
-        ? author.blogTitle
+        ? author.blog_title
         : `The blog of ${author.user_name}`,
     };
 
