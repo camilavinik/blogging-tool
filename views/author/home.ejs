@@ -49,6 +49,9 @@
                             </div>
                         </div>
                         <div class="actions-container">
+                            <a href="/reader/article/<%= article.id %>" target="_blank"><button class="button"
+                                    type="submit">SHARE <i class="fa-solid fa-arrow-up-right-from-square"></i></button>
+                            </a>
                             <form action="/author/<%= authorId %>/article/<%= article.id %>/delete" method="POST">
                                 <button class="button red" type="submit">DELETE</button>
                             </form>
