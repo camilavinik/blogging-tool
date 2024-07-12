@@ -31,7 +31,7 @@
     <div class="main-container">
         <div class="buttons-container">
             <a href="/reader/<%= authorId %>"><button type="button" class="button">BACK</button></a>
-            <form action="/reader/<%= id %>/like/" method="POST">
+            <form action="/reader/article/<%= id %>/like" method="POST">
                 <button type="submit" class="button">LIKE</button>
             </form>
         </div>
@@ -52,7 +52,7 @@
             <%= content %>
         </p>
         <label class="information">COMMENTS</label>
-        <form action="/reader/<%= id %>/comment" method="POST">
+        <form action="/reader/article/<%= id %>/comment" method="POST">
             <textarea type="text" name="content"></textarea>
             <button type="submit" class="button">COMMENT</button>
         </form>

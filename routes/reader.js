@@ -47,12 +47,14 @@ router.get('/:id', async (req, res, next) => {
 /**
  * @desc //TODO WRITE
  */
-router.get('/article/:id', async (req, res, next) => {
+router.get('/article/:article_id', async (req, res, next) => {
   try {
+    const { article_id } = req.params;
+
     // Get article information
     const articleQuery =
       'SELECT id, name, content, user_id, number_of_likes, number_of_reads FROM articles WHERE id=?';
-    const article = await dbGet(articleQuery, [req.params.id]);
+    const article = await dbGet(articleQuery, [article_id]);
 
     // If no article found return 404
     if (!article) return res.status(404).send('Article not found');
@@ -63,11 +65,11 @@ router.get('/article/:id', async (req, res, next) => {
 
     // Get article comments
     const commentsQuery =
-      'SELECT content, created_at FROM comments WHERE article_id=? ORDER BY created_at DESC';
-    const comments = await dbAll(commentsQuery, [req.params.id]);
+      'SELECT content, created_at FROM comments WHERE article_id = ? ORDER BY created_at DESC';
+    const comments = await dbAll(commentsQuery, [article_id]);
 
     // Update read count by 1
-    await addRead(req.params.id);
+    await addRead(article_id);
 
     // Render the page with the article and author information
     res.render('reader/article.ejs', {
@@ -86,15 +88,17 @@ router.get('/article/:id', async (req, res, next) => {
 /**
  * @desc //TODO WRITE
  */
-router.post('/:id/comment', async (req, res, next) => {
+router.post('/article/:article_id/comment', async (req, res, next) => {
   try {
+    const { article_id } = req.params;
+
     // Create comment for the selected article
     const createComment =
       "INSERT INTO comments ('article_id', 'content') VALUES (?, ?)";
-    await dbRun(createComment, [req.params.id, req.body.content]);
+    await dbRun(createComment, [article_id, req.body.content]);
 
     // Avoid counting read at reload
-    await removeRead(req.params.id);
+    await removeRead(article_id);
 
     // Redirect to the page we were at
     res.redirect('back');
@@ -106,15 +110,17 @@ router.post('/:id/comment', async (req, res, next) => {
 /**
  * @desc //TODO WRITE
  */
-router.post('/:id/like', async (req, res, next) => {
+router.post('/article/:article_id/like', async (req, res, next) => {
   try {
+    const { article_id } = req.params;
+
     // Update like count by 1
     const addRead =
-      'UPDATE articles SET number_of_likes=number_of_likes + 1 WHERE id=?';
-    await dbRun(addRead, [req.params.id]);
+      'UPDATE articles SET number_of_likes = number_of_likes + 1 WHERE id = ?';
+    await dbRun(addRead, [article_id]);
 
     // Avoid counting read at reload
-    await removeRead(req.params.id);
+    await removeRead(article_id);
 
     // Redirect to the page we were at
     res.redirect('back');
