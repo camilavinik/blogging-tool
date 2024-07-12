@@ -58,14 +58,21 @@
         </p>
         <label class="information">COMMENTS</label>
         <form action="/reader/article/<%= id %>/comment" method="POST">
-            <textarea type="text" name="content"></textarea>
-            <button type="submit" class="button">COMMENT</button>
+            <% if (!currentUser) {%>
+                <input name="commented_by" value="" placeholder="Your Name" required />
+                <% } else {%>
+                    <p class="information">
+                        <%= currentUser %>
+                    </p>
+                    <% } %>
+                        <textarea type="text" name="content" placeholder="Your comment..." required></textarea>
+                        <button type="submit" class="button">COMMENT</button>
         </form>
         <ul class="comments-container">
             <% comments.forEach(function(comment) { %>
                 <li class="comment">
                     <p class="information">
-                        <%= comment.created_at %>
+                        <%= comment.commented_by %> - <%= comment.created_at %>
                     </p>
                     <p>
                         <%= comment.content %>

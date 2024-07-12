@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS articles (
 CREATE TABLE IF NOT EXISTS comments (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     article_id  INT NOT NULL, --the article that the comment belongs to
+    commented_by TEXT NOT NULL, --name of the user that made the comment
     content TEXT,
     created_at DATE DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (article_id) REFERENCES articles(id)

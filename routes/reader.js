@@ -65,7 +65,7 @@ router.get('/article/:article_id', async (req, res, next) => {
 
     // Get article comments
     const commentsQuery =
-      'SELECT content, created_at FROM comments WHERE article_id = ? ORDER BY created_at DESC';
+      'SELECT content, created_at, commented_by FROM comments WHERE article_id = ? ORDER BY created_at DESC';
     const comments = await dbAll(commentsQuery, [article_id]);
 
     // Update read count by 1
@@ -91,11 +91,16 @@ router.get('/article/:article_id', async (req, res, next) => {
 router.post('/article/:article_id/comment', async (req, res, next) => {
   try {
     const { article_id } = req.params;
+    const { content, commented_by } = req.body;
 
     // Create comment for the selected article
     const createComment =
-      "INSERT INTO comments ('article_id', 'content') VALUES (?, ?)";
-    await dbRun(createComment, [article_id, req.body.content]);
+      "INSERT INTO comments ('article_id', 'content', 'commented_by') VALUES (?, ?, ?)";
+    await dbRun(createComment, [
+      article_id,
+      content,
+      commented_by || req.session.user_name, // If no name is provided, then its a logged in user
+    ]);
 
     // Avoid counting read at reload
     await removeRead(article_id);
