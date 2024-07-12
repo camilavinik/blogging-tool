@@ -50,11 +50,10 @@ router.post('/signup', async (req, res, next) => {
     // Add user to users table
     const signupQuery =
       'INSERT INTO users (user_name, hashed_password) VALUES (?, ?)';
-    await dbRun(signupQuery, [user_name, hashedPassword]);
-
-    // Get the user that was just created
-    const userQuery = 'SELECT user_id FROM users WHERE user_name = ?';
-    const { user_id } = await dbGet(userQuery, [user_name]);
+    const { id: user_id } = await dbRun(signupQuery, [
+      user_name,
+      hashedPassword,
+    ]);
 
     // Add email to email table
     const emailQuery =
