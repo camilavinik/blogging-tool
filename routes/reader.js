@@ -5,7 +5,11 @@ const { dbRun, dbAll, dbGet } = require('../helpers/promises.js');
 const { addRead, removeRead } = require('../helpers/reads.js');
 
 /**
- * @desc Display reader's home page
+ * @route GET /reader/:id
+ * @desc Get author information and render the author's home page.
+ * @access Public
+ * @param {string} req.params.id - The user id of the author
+ * @returns {HTML} The author's home page
  */
 router.get('/:id', async (req, res, next) => {
   let variables = {};
@@ -45,7 +49,11 @@ router.get('/:id', async (req, res, next) => {
 });
 
 /**
- * @desc //TODO WRITE
+ * @route GET /reader/article/:article_id
+ * @desc Get article information and render the article read page.
+ * @access Public
+ * @param {string} req.params.article_id - The article id
+ * @returns {HTML} The article read page
  */
 router.get('/article/:article_id', async (req, res, next) => {
   try {
@@ -86,7 +94,13 @@ router.get('/article/:article_id', async (req, res, next) => {
 });
 
 /**
- * @desc //TODO WRITE
+ * @route POST /reader/article/:article_id/comment
+ * @desc Add a comment to an article
+ * @access Public
+ * @param {string} req.params.article_id - The article id
+ * @param {string} req.body.content - The comment content
+ * @param {string} req.body.commented_by - The name of the commenter
+ * @returns {Redirect} Redirects to the current page
  */
 router.post('/article/:article_id/comment', async (req, res, next) => {
   try {
@@ -113,7 +127,11 @@ router.post('/article/:article_id/comment', async (req, res, next) => {
 });
 
 /**
- * @desc //TODO WRITE
+ * @route POST /reader/article/:article_id/like
+ * @desc Like an article
+ * @access Public
+ * @param {string} req.params.article_id - The article id
+ * @returns {Redirect} Redirects to the current page
  */
 router.post('/article/:article_id/like', async (req, res, next) => {
   try {
