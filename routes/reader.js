@@ -53,7 +53,7 @@ router.get('/article/:article_id', async (req, res, next) => {
 
     // Get article information
     const articleQuery =
-      'SELECT id, name, content, user_id, number_of_likes, number_of_reads FROM articles WHERE id = ?';
+      'SELECT id, name, content, user_id, number_of_likes, number_of_reads, published_at FROM articles WHERE id = ?';
     const article = await dbGet(articleQuery, [article_id]);
 
     // If no article found return 404

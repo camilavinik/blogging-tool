@@ -91,7 +91,7 @@ router.post(
       await dbRun(editQuery, [authorName, blogTitle, req.params.user_id]);
 
       // Redirect to the page we were at
-      res.redirect('back');
+      res.redirect(`/author/${req.params.user_id}`);
     } catch (err) {
       next(err); //send the error on to the error handler
     }
