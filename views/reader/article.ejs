@@ -58,10 +58,13 @@
         </form>
         <ul class="comments-container">
             <% comments.forEach(function(comment) { %>
-                <li class="article-container">
-                    <h3>
+                <li class="comment">
+                    <p class="information">
+                        <%= comment.created_at %>
+                    </p>
+                    <p>
                         <%= comment.content %>
-                    </h3>
+                    </p>
                 </li>
                 <% }) %>
         </ul>
