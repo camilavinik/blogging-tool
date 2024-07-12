@@ -4,10 +4,24 @@ const bycript = require('bcrypt');
 
 const { dbGet } = require('../helpers/promises');
 
+/**
+ * @route GET /login
+ * @desc Display the login form
+ * @access Public
+ * @returns {HTML} The login form
+ */
 router.get('/', (req, res) => {
   res.render('login.ejs');
 });
 
+/**
+ * @route POST /login
+ * @desc Log the user in
+ * @access Public
+ * @param {string} req.body.email - The user's email
+ * @param {string} req.body.password - The user's password
+ * @returns {Redirect} Redirect to the home page or the original URL
+ */
 router.post('/', async (req, res, next) => {
   const { email, password } = req.body;
 
