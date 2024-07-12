@@ -28,8 +28,7 @@
             </ul>
         </nav>
     </header>
-    <form action="/author/edit" method="post" class="main-container">
-        <input type="hidden" name="id" value="<%= id %>" /> <!-- ID of the article -->
+    <form action="/author/<%= authorId %>/article/<%= id %>/edit" method="post" class="main-container">
         <div class="buttons-container">
             <a href="/author/<%= authorId %>"><button type="button" class="button">BACK</button></a>
             <button class="button" type="submit">SUBMIT CHANGES</button>

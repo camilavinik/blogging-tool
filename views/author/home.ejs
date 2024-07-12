@@ -49,8 +49,7 @@
                             </div>
                         </div>
                         <div class="actions-container">
-                            <form action="/author/delete" method="post">
-                                <input type="hidden" name="id" value="<%= article.id %>" /> <!-- ID of the article -->
+                            <form action="/author/<%= authorId %>/article/<%= article.id %>/delete" method="POST">
                                 <button class="button red" type="submit">DELETE</button>
                             </form>
                         </div>
@@ -75,16 +74,14 @@
                             <%= article.name %>
                         </h3>
                         <div class="actions-container">
-                            <form action="/author/article/<%= article.id %>" method="get">
+                            <form action="/author/<%= authorId %>/article/<%= article.id %>" method="GET">
                                 <button class="button" type="submit">EDIT <i
                                         class="fa-solid fa-arrow-up-right-from-square"></i></button>
                             </form>
-                            <form action="/author/publish" method="post">
-                                <input type="hidden" name="id" value="<%= article.id %>" /> <!-- ID of the article -->
+                            <form action="/author/<%= authorId %>/article/<%= article.id %>/publish" method="POST">
                                 <button class="button" type="submit">PUBLISH</button>
                             </form>
-                            <form action="/author/delete" method="post">
-                                <input type="hidden" name="id" value="<%= article.id %>" /> <!-- ID of the article -->
+                            <form action="/author/<%= authorId %>/article/<%= article.id %>/delete" method="POST">
                                 <button class="button red" type="submit">DELETE</button>
                             </form>
                         </div>

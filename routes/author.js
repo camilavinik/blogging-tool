@@ -7,14 +7,14 @@ const { dbRun, dbAll, dbGet } = require('../helpers/promises.js');
 /**
  * @desc //TODO WRITE
  */
-router.get('/:id', isAuthenticated, async (req, res, next) => {
+router.get('/:user_id', isAuthenticated, async (req, res, next) => {
   let variables = {};
 
   try {
     // Get author information
     const userQuery =
       'SELECT user_name, blog_title FROM users WHERE user_id = ?';
-    const author = await dbGet(userQuery, [req.params.id]);
+    const author = await dbGet(userQuery, [req.params.user_id]);
 
     // If no author found return 404
     if (!author) return res.status(404).send('Author not found');
@@ -22,7 +22,7 @@ router.get('/:id', isAuthenticated, async (req, res, next) => {
     // Set author variables for EJS template
     variables = {
       authorName: author.user_name,
-      authorId: req.params.id,
+      authorId: req.params.user_id,
       blogTitle: author.blog_title
         ? author.blog_title
         : `The blog of ${author.user_name}`,
@@ -36,8 +36,8 @@ router.get('/:id', isAuthenticated, async (req, res, next) => {
 
     // Execute the queries at the same time
     const [publishedArticles, draftArticles] = await Promise.all([
-      dbAll(publishedArticlesQuery, [req.params.id]),
-      dbAll(draftArticlesQuery, [req.params.id]),
+      dbAll(publishedArticlesQuery, [req.params.user_id]),
+      dbAll(draftArticlesQuery, [req.params.user_id]),
     ]);
 
     // Add published and draft articles to EJS variables
@@ -50,14 +50,14 @@ router.get('/:id', isAuthenticated, async (req, res, next) => {
   }
 });
 
-router.get('/:id/settings', async (req, res, next) => {
+router.get('/:user_id/settings', isAuthenticated, async (req, res, next) => {
   let variables = {};
 
   try {
     // Get author information
     const userQuery =
       'SELECT user_name, blog_title FROM users WHERE user_id = ?';
-    const author = await dbGet(userQuery, [req.params.id]);
+    const author = await dbGet(userQuery, [req.params.user_id]);
 
     // If no author found return 404
     if (!author) return res.status(404).send('Author not found');
@@ -65,7 +65,7 @@ router.get('/:id/settings', async (req, res, next) => {
     // Set author variables for EJS template
     variables = {
       authorName: author.user_name,
-      authorId: req.params.id,
+      authorId: req.params.user_id,
       blogTitle: author.blog_title,
     };
 
@@ -76,109 +76,136 @@ router.get('/:id/settings', async (req, res, next) => {
   }
 });
 
-router.post('/:id/settings/edit', async (req, res, next) => {
-  try {
-    const { authorId, authorName, blogTitle } = req.body;
+router.post(
+  '/:user_id/settings/edit',
+  isAuthenticated,
+  async (req, res, next) => {
+    try {
+      const { authorName, blogTitle } = req.body;
 
-    // Define the query to edit the users settings
-    const editQuery =
-      'UPDATE users SET user_name = ?, blog_title = ? WHERE user_id = ?';
+      // Define the query to edit the users settings
+      const editQuery =
+        'UPDATE users SET user_name = ?, blog_title = ? WHERE user_id = ?';
 
-    // Execute the query
-    await dbRun(editQuery, [authorName, blogTitle, authorId]);
+      // Execute the query
+      await dbRun(editQuery, [authorName, blogTitle, req.params.user_id]);
 
-    // Redirect to the page we were at
-    res.redirect('back');
-  } catch (err) {
-    next(err); //send the error on to the error handler
+      // Redirect to the page we were at
+      res.redirect('back');
+    } catch (err) {
+      next(err); //send the error on to the error handler
+    }
   }
-});
+);
 
 /**
  * @desc //TODO WRITE
  */
-router.post('/delete', async (req, res, next) => {
-  try {
-    // Define the query to delete the article
-    const deleteQuery = 'DELETE FROM articles WHERE id=?';
+router.post(
+  '/:user_id/article/:article_id/delete',
+  isAuthenticated,
+  async (req, res, next) => {
+    try {
+      const { user_id, article_id } = req.params;
 
-    // Execute the query
-    await dbRun(deleteQuery, [req.body.id]);
+      // Define the query to delete the article
+      const deleteQuery = 'DELETE FROM articles WHERE id = ? AND user_id = ?';
 
-    // Redirect to the page we were at
-    res.redirect('back');
-  } catch (err) {
-    next(err); //send the error on to the error handler
+      // Execute the query
+      await dbRun(deleteQuery, [article_id, user_id]);
+
+      // Redirect to the page we were at
+      res.redirect('back');
+    } catch (err) {
+      next(err); //send the error on to the error handler
+    }
   }
-});
+);
 
 /**
  * @desc //TODO WRITE
  */
-router.post('/publish', async (req, res, next) => {
-  try {
-    // Define the query to publish the article
-    const publishQuery =
-      'UPDATE articles SET published_at = CURRENT_TIMESTAMP WHERE id = ?';
+router.post(
+  '/:user_id/article/:article_id/publish',
+  isAuthenticated,
+  async (req, res, next) => {
+    try {
+      const { user_id, article_id } = req.params;
 
-    // Execute the query
-    await dbRun(publishQuery, [req.body.id]);
+      // Define the query to publish the article
+      const publishQuery =
+        'UPDATE articles SET published_at = CURRENT_TIMESTAMP WHERE id = ? AND user_id = ?';
 
-    // Redirect to the page we were at
-    res.redirect('back');
-  } catch (err) {
-    next(err); //send the error on to the error handler
+      // Execute the query
+      await dbRun(publishQuery, [article_id, user_id]);
+
+      // Redirect to the page we were at
+      res.redirect('back');
+    } catch (err) {
+      next(err); //send the error on to the error handler
+    }
   }
-});
+);
 
 /**
  * @desc //TODO WRITE
  */
-router.get('/article/:id', async (req, res, next) => {
-  try {
-    // Get article information
-    const articleQuery =
-      'SELECT id, name, content, user_id FROM articles WHERE id=?';
-    const article = await dbGet(articleQuery, [req.params.id]);
+router.get(
+  '/:user_id/article/:article_id',
+  isAuthenticated,
+  async (req, res, next) => {
+    try {
+      const { user_id, article_id } = req.params;
 
-    // If no article found return 404
-    if (!article) return res.status(404).send('Article not found');
+      // Get article information
+      const articleQuery =
+        'SELECT id, name, content, user_id FROM articles WHERE id = ? AND user_id = ?';
+      const article = await dbGet(articleQuery, [article_id, user_id]);
 
-    // Get author information
-    const authorQuery =
-      'SELECT user_name, user_id FROM users WHERE user_id = ?';
-    const author = await dbGet(authorQuery, [article.user_id]);
+      // If no article found return 404
+      if (!article) return res.status(404).send('Article not found');
 
-    // Render the page with the article
-    res.render('author/article.ejs', {
-      ...article,
-      authorName: author.user_name,
-      authorId: author.user_id,
-    });
-  } catch (err) {
-    next(err); //send the error on to the error handler
+      // Get author information
+      const authorQuery =
+        'SELECT user_name, user_id FROM users WHERE user_id = ?';
+      const author = await dbGet(authorQuery, [article.user_id]);
+
+      // Render the page with the article
+      res.render('author/article.ejs', {
+        ...article,
+        authorName: author.user_name,
+        authorId: author.user_id,
+      });
+    } catch (err) {
+      next(err); //send the error on to the error handler
+    }
   }
-});
+);
 
 /**
  * @desc //TODO WRITE
  */
-router.post('/edit', async (req, res, next) => {
-  try {
-    const { id, name, content } = req.body;
+router.post(
+  '/:user_id/article/:article_id/edit',
+  isAuthenticated,
+  async (req, res, next) => {
+    try {
+      const { article_id, user_id } = req.params;
+      const { name, content } = req.body;
 
-    // Define the query to edit the article
-    const editQuery =
-      'UPDATE articles SET last_modified = CURRENT_TIMESTAMP, name = ?, content = ? WHERE id = ?';
+      // Define the query to edit the article
+      const editQuery =
+        'UPDATE articles SET last_modified = CURRENT_TIMESTAMP, name = ?, content = ? WHERE id = ? AND user_id = ?';
 
-    // Execute the query
-    await dbRun(editQuery, [name, content, id]);
+      // Execute the query
+      await dbRun(editQuery, [name, content, article_id, user_id]);
 
-    // Redirect to the page we were at
-    res.redirect('back');
-  } catch (err) {
-    next(err); //send the error on to the error handler
+      // Redirect to the page we were at
+      res.redirect('back');
+    } catch (err) {
+      next(err); //send the error on to the error handler
+    }
   }
-});
+);
 
 module.exports = router;
