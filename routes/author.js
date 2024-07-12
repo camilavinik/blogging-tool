@@ -5,7 +5,11 @@ const { isAuthenticated } = require('../middlewares/index.js');
 const { dbRun, dbAll, dbGet } = require('../helpers/promises.js');
 
 /**
- * @desc //TODO WRITE
+ * @route GET /author/:user_id
+ * @desc Get author information and render the author's home page.
+ * @access Private (requires authentication and authorisation)
+ * @param {string} req.params.user_id - The user id of the author (user)
+ * @returns {HTML} The author's home page
  */
 router.get('/:user_id', isAuthenticated, async (req, res, next) => {
   let variables = {};
@@ -50,6 +54,13 @@ router.get('/:user_id', isAuthenticated, async (req, res, next) => {
   }
 });
 
+/**
+ * @route GET /author/:user_id/settings
+ * @desc Get author settings information and render the author's settings page.
+ * @access Private (requires authentication and authorisation)
+ * @param {string} req.params.user_id - The user id of the author (user)
+ * @returns {HTML} The author's settings page
+ */
 router.get('/:user_id/settings', isAuthenticated, async (req, res, next) => {
   let variables = {};
 
@@ -76,6 +87,15 @@ router.get('/:user_id/settings', isAuthenticated, async (req, res, next) => {
   }
 });
 
+/**
+ * @route POST /author/:user_id/settings/edit
+ * @desc Edit author settings information.
+ * @access Private (requires authentication and authorisation)
+ * @param {string} req.params.user_id - The user id of the author (user)
+ * @param {string} req.body.authorName - The new author name
+ * @param {string} req.body.blogTitle - The new blog title
+ * @returns {Redirect} Redirects to the author's home page
+ */
 router.post(
   '/:user_id/settings/edit',
   isAuthenticated,
@@ -99,7 +119,12 @@ router.post(
 );
 
 /**
- * @desc //TODO WRITE
+ * @route POST /author/:user_id/article/:article_id/delete
+ * @desc Deletes an article.
+ * @access Private (requires authentication and authorisation)
+ * @param {string} req.params.user_id - The user id of the author (user)
+ * @param {string} req.params.article_id - The article id to delete
+ * @returns {Redirect} Redirects to the current page
  */
 router.post(
   '/:user_id/article/:article_id/delete',
@@ -123,7 +148,12 @@ router.post(
 );
 
 /**
- * @desc //TODO WRITE
+ * @route POST /author/:user_id/article/:article_id/publish
+ * @desc Publishes an article.
+ * @access Private (requires authentication and authorisation)
+ * @param {string} req.params.user_id - The user id of the author (user)
+ * @param {string} req.params.article_id - The article id to publish
+ * @returns {Redirect} Redirects to the current page
  */
 router.post(
   '/:user_id/article/:article_id/publish',
@@ -148,7 +178,11 @@ router.post(
 );
 
 /**
- * @desc //TODO WRITE
+ * @route GET /author/:user_id/article/new
+ * @desc Renders the new article page.
+ * @access Private (requires authentication and authorisation)
+ * @param {string} req.params.user_id - The user id of the author (user)
+ * @returns {HTML} The new article page
  */
 router.get('/:user_id/article/new', isAuthenticated, async (req, res, next) => {
   try {
@@ -166,7 +200,13 @@ router.get('/:user_id/article/new', isAuthenticated, async (req, res, next) => {
 });
 
 /**
- * @desc //TODO WRITE
+ * @route POST /author/:user_id/article/new
+ * @desc Creates a new article.
+ * @access Private (requires authentication and authorisation)
+ * @param {string} req.params.user_id - The user id of the author (user)
+ * @param {string} req.body.name - The name of the new article
+ * @param {string} req.body.content - The content of the new article
+ * @returns {Redirect} Redirects to the created article edit page
  */
 router.post(
   '/:user_id/article/new',
@@ -188,7 +228,12 @@ router.post(
 );
 
 /**
- * @desc //TODO WRITE
+ * @route GET /author/:user_id/article/:article_id
+ * @desc Get article information and render the article edit page.
+ * @access Private (requires authentication and authorisation)
+ * @param {string} req.params.user_id - The user id of the author (user)
+ * @param {string} req.params.article_id - The article id
+ * @returns {HTML} The article edit page
  */
 router.get(
   '/:user_id/article/:article_id',
@@ -220,7 +265,14 @@ router.get(
 );
 
 /**
- * @desc //TODO WRITE
+ * @route POST /author/:user_id/article/:article_id/edit
+ * @desc Edits an article.
+ * @access Private (requires authentication and authorisation)
+ * @param {string} req.params.user_id - The user id of the author (user)
+ * @param {string} req.params.article_id - The article id to edit
+ * @param {string} req.body.name - The new name of the article
+ * @param {string} req.body.content - The new content of the article
+ * @returns {Redirect} Redirects to the current page
  */
 router.post(
   '/:user_id/article/:article_id/edit',
