@@ -12,7 +12,8 @@ router.get('/:id', isAuthenticated, async (req, res, next) => {
 
   try {
     // Get author information
-    const userQuery = 'SELECT user_name, blog_title FROM users WHERE user_id=?';
+    const userQuery =
+      'SELECT user_name, blog_title FROM users WHERE user_id = ?';
     const author = await dbGet(userQuery, [req.params.id]);
 
     // If no author found return 404
@@ -29,9 +30,9 @@ router.get('/:id', isAuthenticated, async (req, res, next) => {
 
     // Define queries for draft and published articles
     const publishedArticlesQuery =
-      'SELECT id, name, content, created_at, published_at, last_modified, number_of_reads, number_of_likes FROM articles WHERE user_id=? AND published_at NOT NULL';
+      'SELECT id, name, content, created_at, published_at, last_modified, number_of_reads, number_of_likes FROM articles WHERE user_id = ? AND published_at NOT NULL';
     const draftArticlesQuery =
-      'SELECT id, name, content, created_at, published_at, last_modified, number_of_reads, number_of_likes FROM articles WHERE user_id=? AND published_at IS NULL';
+      'SELECT id, name, content, created_at, published_at, last_modified, number_of_reads, number_of_likes FROM articles WHERE user_id = ? AND published_at IS NULL';
 
     // Execute the queries at the same time
     const [publishedArticles, draftArticles] = await Promise.all([
@@ -54,7 +55,8 @@ router.get('/:id/settings', async (req, res, next) => {
 
   try {
     // Get author information
-    const userQuery = 'SELECT user_name, blog_title FROM users WHERE user_id=?';
+    const userQuery =
+      'SELECT user_name, blog_title FROM users WHERE user_id = ?';
     const author = await dbGet(userQuery, [req.params.id]);
 
     // If no author found return 404
@@ -69,6 +71,24 @@ router.get('/:id/settings', async (req, res, next) => {
 
     // Render page with results
     res.render('author/settings.ejs', variables);
+  } catch (err) {
+    next(err); //send the error on to the error handler
+  }
+});
+
+router.post('/:id/settings/edit', async (req, res, next) => {
+  try {
+    const { authorId, authorName, blogTitle } = req.body;
+
+    // Define the query to edit the users settings
+    const editQuery =
+      'UPDATE users SET user_name = ?, blog_title = ? WHERE user_id = ?';
+
+    // Execute the query
+    await dbRun(editQuery, [authorName, blogTitle, authorId]);
+
+    // Redirect to the page we were at
+    res.redirect('back');
   } catch (err) {
     next(err); //send the error on to the error handler
   }
@@ -99,7 +119,7 @@ router.post('/publish', async (req, res, next) => {
   try {
     // Define the query to publish the article
     const publishQuery =
-      'UPDATE articles SET published_at=CURRENT_TIMESTAMP WHERE id=?';
+      'UPDATE articles SET published_at = CURRENT_TIMESTAMP WHERE id = ?';
 
     // Execute the query
     await dbRun(publishQuery, [req.body.id]);
@@ -125,7 +145,8 @@ router.get('/article/:id', async (req, res, next) => {
     if (!article) return res.status(404).send('Article not found');
 
     // Get author information
-    const authorQuery = 'SELECT user_name, user_id FROM users WHERE user_id=?';
+    const authorQuery =
+      'SELECT user_name, user_id FROM users WHERE user_id = ?';
     const author = await dbGet(authorQuery, [article.user_id]);
 
     // Render the page with the article
@@ -148,7 +169,7 @@ router.post('/edit', async (req, res, next) => {
 
     // Define the query to edit the article
     const editQuery =
-      'UPDATE articles SET last_modified=CURRENT_TIMESTAMP, name="?", content="?" WHERE id=?';
+      'UPDATE articles SET last_modified = CURRENT_TIMESTAMP, name = ?, content = ? WHERE id = ?';
 
     // Execute the query
     await dbRun(editQuery, [name, content, id]);
