@@ -4,7 +4,7 @@ const util = require('util');
  * Promisified version of global.db.run for executing SQL queries that modify data.
  * Used for INSERT, UPDATE, DELETE statements.
  *
- * @param {string} sql - The SQL query to execute.
+ * @param {string} query - The SQL query to execute.
  * @param {Array} [params] - Optional array of parameters for the SQL query.
  * @returns {Promise<Object>} - A promise that resolves with the modified object id
  */
