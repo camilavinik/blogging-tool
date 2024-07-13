@@ -1,3 +1,6 @@
+// NOTE: a better approach would be always to use the user_id from the session, instead of passing it as a parameter.
+// NOTE2: PUT, PATCH and DELETE HTTP methods are being handled as POST for this assignment, due to the HTML form restriction
+
 const express = require('express');
 const router = express.Router();
 
