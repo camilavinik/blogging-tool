@@ -35,3 +35,11 @@ Routes under `/author/` will need accessing with a user, you can use any of the 
 | Harry Hilbert | harry@mail.com     | password123 |
 
 Or create your own user in `http://localhost:3000/users/signup`
+
+## Additional Libraries
+
+For this project, I have added the following libraries (not including the template libs)
+
+- `bcrypt`
+
+- `express-session`
