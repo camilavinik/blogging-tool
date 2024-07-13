@@ -24,7 +24,7 @@ router.get('/', (req, res) => {
  */
 router.post('/', async (req, res, next) => {
   try {
-  const { email, password } = req.body;
+    const { email, password } = req.body;
   
     // Get user from the email
     const emailQuery =
