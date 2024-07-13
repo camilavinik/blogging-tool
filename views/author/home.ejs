@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/2d9060194c.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+    <link rel="stylesheet" type="text/css" href="/author.css" />
+    <title>Author Home Page</title>
+</head>
+
+<body class="body">
+    <header class="header">
+        <div>
+            <h1 class="title">
+                <%= authorName %>
+            </h1>
+            <h6 class="title">HOME PAGE</h1>
+        </div>
+        <nav>
+            <ul class="navigation-container">
+                <li><a href="/author/<%= authorId %>/article/new">CREATE NEW DRAFT</a></li>
+                <li><a href="/author/<%= authorId %>/settings">SETTINGS</a></li>
+                <li><a href="/">MAIN HOME</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="main-container">
+        <h2>
+            <%= blogTitle %>
+        </h2>
+        <h5>PUBLISHED ARTICLES</h5>
+        <ul class="articles-list">
+            <% publishedArticles.forEach(function(article) { %>
+                <li class="article-container">
+                    <div class="space-between">
+                        <div class="article-header">
+                            <h3>
+                                <%= article.title %>
+                            </h3>
+                            <div>
+                                <i class="fa-regular fa-eye"></i>
+                                <%= article.number_of_reads %>
+                            </div>
+                            <div>
+                                <i class="fa-regular fa-thumbs-up"></i>
+                                <%= article.number_of_likes %>
+                            </div>
+                        </div>
+                        <div class="actions-container">
+                            <a href="/reader/article/<%= article.article_id %>" target="_blank"><button class="button"
+                                    type="submit">SHARE <i class="fa-solid fa-arrow-up-right-from-square"></i></button>
+                            </a>
+                            <form action="/author/<%= authorId %>/article/<%= article.article_id %>/delete"
+                                method="POST">
+                                <button class="button red" type="submit">DELETE</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="information">CREATED: <%= article.created_at %>
+                        </p>
+                        <p class="information">PUBLISHED: <%= article.published_at %>
+                        </p>
+                        <p class="information">MODIFIED: <%= article.last_modified %>
+                        </p>
+                    </div>
+                </li>
+                <% }) %>
+        </ul>
+        <h5>DRAFT ARTICLES</h5>
+        <ul class="articles-list">
+            <% draftArticles.forEach(function(article) { %>
+                <li class="article-container">
+                    <div class="space-between">
+                        <h3>
+                            <%= article.title %>
+                        </h3>
+                        <div class="actions-container">
+                            <form action="/author/<%= authorId %>/article/<%= article.article_id %>" method="GET">
+                                <button class="button" type="submit">EDIT <i
+                                        class="fa-solid fa-arrow-up-right-from-square"></i></button>
+                            </form>
+                            <form action="/author/<%= authorId %>/article/<%= article.article_id %>/publish"
+                                method="POST">
+                                <button class="button" type="submit">PUBLISH</button>
+                            </form>
+                            <form action="/author/<%= authorId %>/article/<%= article.article_id %>/delete"
+                                method="POST">
+                                <button class="button red" type="submit">DELETE</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="information">CREATED: <%= article.created_at %>
+                        </p>
+                        <p class="information">MODIFIED: <%= article.last_modified %>
+                        </p>
+                    </div>
+                </li>
+                <% }) %>
+        </ul>
+    </div>
+    <div class="footer">
+        <h3 class="title" class="information">
+            LOGGED IN AS <%= authorName %>
+        </h3>
+        <form action="/logout" method="POST">
+            <button type="submit" class="button">LOG OUT</button>
+        </form>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,14 @@
+.comments-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 72px;
+    gap: 12px
+}
+
+.comment {
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    border-radius: 8px;
+    background-color: #EEF0E5;
+}

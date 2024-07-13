@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://kit.fontawesome.com/2d9060194c.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+    <link rel="stylesheet" type="text/css" href="/home.css" />
+    <title>Home Page</title>
+</head>
+
+<body class="body">
+    <form class="" method="GET">
+        <select class="formInput" id="authorSelect">
+            <% authors.forEach(function(author) { %>
+                <% if (author.user_id===1) { %>
+                    <option value="<%= author.user_id %>" selected>
+                        <%= author.user_name %>
+                    </option>
+                    <% } else { %>
+                        <option value="<%= author.user_id %>">
+                            <%= author.user_name %>
+                        </option>
+                        <% } %>
+                            <% }); %>
+        </select>
+        <button class="button formInput" id="readerButton" formaction="/reader/1">READER</button>
+        <button class="button formInput" id="authorButton" formaction="/author/1">AUTHOR</button>
+    </form>
+    <div class="footer">
+        <% if (currentUser) { %>
+            <h3 class="title" class="information">
+                LOGGED IN AS <%= currentUser %>
+            </h3>
+            <form action="/logout" method="POST">
+                <button type="submit" class="button">LOG OUT</button>
+            </form>
+            <% } else { %>
+                <form action="/login" method="GET">
+                    <button type="submit" class="button">LOG IN</button>
+                </form>
+                <form action="/users/signup" method="GET">
+                    <button type="submit" class="button">SIGN UP</button>
+                </form>
+                <% } %>
+    </div>
+</body>
+<script>
+    // Function to update Form Actions
+    function updateFormActions(authorId) {
+        const readerButton = document.getElementById('readerButton');
+        const authorButton = document.getElementById('authorButton');
+
+        readerButton.setAttribute('formaction', `/reader/${authorId}`);
+        authorButton.setAttribute('formaction', `/author/${authorId}`);
+    }
+
+    // Get Author select dropdown
+    const authorSelect = document.getElementById('authorSelect');
+
+    // Add event listener to Author select dropdown
+    authorSelect.addEventListener('change', function (event) {
+        const authorId = authorSelect.value;
+        updateFormActions(authorId);
+    });
+</script>
+
+</html>

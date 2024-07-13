@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/2d9060194c.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+    <link rel="stylesheet" type="text/css" href="/author.css" />
+    <link rel="stylesheet" type="text/css" href="/reader.css" />
+    <title>
+        <%= title %>
+    </title>
+</head>
+
+<body class="body">
+    <header class="header">
+        <div>
+            <h1 class="title">
+                <%= authorName %>
+            </h1>
+            <h6 class="title">READ ARTICLE</h1>
+        </div>
+        <nav>
+            <ul class="navigation-container">
+                <li><a href="/reader/<%= authorId %>">AUTHOR HOME</a></li>
+                <li><a href="/">MAIN HOME</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="main-container">
+        <div class="buttons-container">
+            <a href="/reader/<%= authorId %>"><button type="button" class="button">BACK</button></a>
+            <form action="/reader/article/<%= article_id %>/like" method="POST">
+                <button type="submit" class="button">LIKE</button>
+            </form>
+        </div>
+        <div>
+            <div class="article-header">
+                <h2>
+                    <%= title %>
+                </h2>
+                <div>
+                    <i class="fa-regular fa-eye"></i>
+                    <%= number_of_reads %>
+                </div>
+                <div>
+                    <i class="fa-regular fa-thumbs-up"></i>
+                    <%= number_of_likes %>
+                </div>
+            </div>
+            <p class="information">
+                PUBLISHED: <%= published_at %>
+            </p>
+        </div>
+        <p>
+            <%= content %>
+        </p>
+        <label class="information">COMMENTS</label>
+        <form action="/reader/article/<%= article_id %>/comment" method="POST">
+            <% if (!currentUser) {%>
+                <input name="commented_by" value="" placeholder="Your Name" required />
+                <% } else {%>
+                    <p class="information">
+                        <%= currentUser %>
+                    </p>
+                    <% } %>
+                        <textarea type="text" name="content" placeholder="Your comment..." required></textarea>
+                        <button type="submit" class="button">COMMENT</button>
+        </form>
+        <ul class="comments-container">
+            <% comments.forEach(function(comment) { %>
+                <li class="comment">
+                    <p class="information">
+                        <%= comment.commented_by %> - <%= comment.created_at %>
+                    </p>
+                    <p>
+                        <%= comment.content %>
+                    </p>
+                </li>
+                <% }) %>
+        </ul>
+    </div>
+    <div class="footer">
+        <% if (currentUser) { %>
+            <h3 class="title" class="information">
+                LOGGED IN AS <%= currentUser %>
+            </h3>
+            <form action="/logout" method="POST">
+                <button type="submit" class="button">LOG OUT</button>
+            </form>
+            <% } else { %>
+                <form action="/login" method="GET">
+                    <button type="submit" class="button">LOG IN</button>
+                </form>
+                <form action="/users/signup" method="GET">
+                    <button type="submit" class="button">SIGN UP</button>
+                </form>
+                <% } %>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,37 @@
+.body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+}
+
+form {
+    display: flex;
+    gap: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.formInput {
+    font-size: 32px;
+    font-weight: 600;
+    padding: 8px 16px;
+    background-color: white;
+}
+
+select:focus-visible {
+    outline: none;
+}
+
+#authorSelect {
+    border: 2px solid #163020;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #163020;
+}
+
+.footer {
+    margin: 0;
+}

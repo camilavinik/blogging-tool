@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/2d9060194c.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+    <link rel="stylesheet" type="text/css" href="/author.css" />
+    <title>Settings</title>
+</head>
+
+<body class="body">
+    <header class="header">
+        <div>
+            <h1 class="title">
+                <%= authorName %>
+            </h1>
+            <h6 class="title">SETTINGS</h1>
+        </div>
+        <nav>
+            <ul class="navigation-container">
+                <li><a href="/author/<%= authorId %>/article/new">CREATE NEW DRAFT</a></li>
+                <li><a href="/author/<%= authorId %>">AUTHOR HOME</a></li>
+                <li><a href="/">MAIN HOME</a></li>
+            </ul>
+        </nav>
+    </header>
+    <form action="/author/<%= authorId %>/settings/edit" method="POST" class="main-container">
+        <input type="hidden" name="authorId" value="<%= authorId %>" /> <!-- ID of the author -->
+        <div class="buttons-container">
+            <a href="/author/<%= authorId %>"><button type="button" class="button">BACK</button></a>
+            <button class="button" type="submit">SUBMIT CHANGES</button>
+        </div>
+        <label class="information">AUTHOR NAME</label>
+        <input type="text" name="authorName" value="<%= authorName %>" required />
+        <label class="information">BLOG TITLE</label>
+        <input type="text" name="blogTitle" value="<%= blogTitle %>" required />
+    </form>
+    <div class="footer">
+        <h3 class="title" class="information">
+            LOGGED IN AS <%= authorName %>
+        </h3>
+        <form action="/logout" method="POST">
+            <button type="submit" class="button">LOG OUT</button>
+        </form>
+    </div>
+</body>
+
+</html>

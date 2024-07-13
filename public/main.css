@@ -1,1 +1,124 @@
-/* Define styles */
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+#my-app-container {
+    display: none;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+ul {
+    list-style-type: none
+}
+
+textarea, input {
+    padding: 12px;
+}
+
+textarea {
+    resize: none;
+    height: 100%;
+    width: 100%;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.button {
+    border: 2px solid #163020;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: transparent;
+    color: #163020;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 2px 4px;
+    transition: 0.2s;
+}
+
+.button:hover {
+    background-color: #163020;
+    color: white;
+}
+
+.button.red {
+    border-color: #FF4545;
+    color: #FF4545;
+}
+
+.button.red:hover {
+    background-color: #FF4545;
+    color: white;
+}
+
+.space-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.title {
+    margin: 0;
+}
+
+.body {
+    display: grid;
+    grid-template-rows: 98px auto 44px;
+    min-height: 100vh;
+    background-color: #B6C4B6;
+}
+
+.header {
+    width: 100%;
+    padding: 24px;
+    background-color: #163020;
+    color: #EEF0E5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.main-container {
+    margin: 24px;
+    padding: 24px;
+    background-color: white;
+    border-radius: 8px;
+    color: #163020;
+    display: flex;
+    flex-direction: column;
+    gap: 12px
+}
+
+.main-container > h2 {
+    margin-bottom: 12px;
+}
+
+.navigation-container {
+    display: flex;
+    gap: 24px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.navigation-container > li {
+    cursor: pointer;
+}
+
+.footer {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    color: #163020;
+    margin-bottom: auto;
+    text-transform: uppercase;
+}
