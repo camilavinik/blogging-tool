@@ -34,7 +34,7 @@ const dbAll = util.promisify(global.db.all).bind(global.db);
  * Promisified version of global.db.get for executing SQL queries that return a single row.
  * Used for SELECT statements returning only one row.
  *
- * @param {string} sql - The SQL query to execute.
+ * @param {string} query - The SQL query to execute.
  * @param {Array} [params] - Optional array of parameters for the SQL query.
  * @returns {Promise<Object>}
  */
