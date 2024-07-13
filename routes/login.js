@@ -23,9 +23,9 @@ router.get('/', (req, res) => {
  * @returns {Redirect} Redirect to the home page or the original URL
  */
 router.post('/', async (req, res, next) => {
-  const { email, password } = req.body;
-
   try {
+  const { email, password } = req.body;
+  
     // Get user from the email
     const emailQuery =
       'SELECT user_id FROM email_accounts WHERE email_address = ?';
