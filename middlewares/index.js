@@ -1,3 +1,6 @@
+/**
+ * @desc Middleware to check if the user is authenticated and has access to the requested route
+ * */
 const isAuthenticated = (req, res, next) => {
   // Get the user_id from the request parameters
   const user_id = parseInt(req.params.user_id, 10);
