@@ -17,7 +17,7 @@ const addRead = articleId => {
  * @param {number} articleId - The id of the article to decrease the read count
  * @returns {Promise}
  */
-const removeRead = async articleId => {
+const removeRead = articleId => {
   const addRead =
     'UPDATE articles SET number_of_reads = number_of_reads - 1 WHERE article_id = ?';
 
