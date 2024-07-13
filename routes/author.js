@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { isAuthenticated } = require('../middlewares/index.js');
 
+const { isAuthenticated } = require('../middlewares/index.js');
 const { dbRun, dbAll, dbGet } = require('../helpers/promises.js');
 
 /**
