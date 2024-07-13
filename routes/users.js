@@ -50,9 +50,16 @@ router.get('/signup', (req, res) => {
  * @returns {HTML} Redirect to the main home page
  */
 router.post('/signup', async (req, res, next) => {
-  const { user_name, email, password } = req.body;
-
   try {
+    const { user_name, email, password } = req.body;
+
+    // Check if the user already exists
+    const checkUserQuery =
+      'SELECT email_address FROM email_accounts WHERE email_address = ?';
+    const existingEmail = await dbGet(checkUserQuery, [email]);
+
+    if (existingEmail) return res.status(400).send('Email already in use');
+
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
