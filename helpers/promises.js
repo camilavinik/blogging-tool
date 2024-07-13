@@ -24,7 +24,7 @@ function dbRun(query, params) {
  * Promisified version of global.db.all for executing SQL queries that return multiple rows.
  * Used for SELECT statements returning multiple rows.
  *
- * @param {string} sql - The SQL query to execute.
+ * @param {string} query - The SQL query to execute.
  * @param {Array} [params] - Optional array of parameters for the SQL query.
  * @returns {Promise<Array>}
  */
